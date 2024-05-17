@@ -1,0 +1,76 @@
+/* button */
+.button-common button.ant-btn {
+  border-radius: 8px;
+  display: flex;
+  width: 130px;
+  height: 44px;
+  justify-content: center;
+  align-items: center;
+
+  color: #FFF;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+}
+
+.button-filter-common button.ant-btn {
+  border-radius: 8px;
+  display: flex;
+  width: 130px;
+  height: 36px;
+  justify-content: center;
+  align-items: center;
+
+  color: #FFF;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+}
+
+.button-common button.ant-btn.ant-btn-default.gradient,
+.button-filter-common button.ant-btn.ant-btn-default.gradient {
+  background: linear-gradient(30deg, #2782A9 28.37%, #82ACEA 67.26%, #288FBB 94.02%);
+}
+
+.button-common button.ant-btn.ant-btn-default.black,
+.button-filter-common button.ant-btn.ant-btn-default.black {
+  background: #221c38;
+}
+
+
+.button-common button.ant-btn.ant-btn-default.blue,
+.button-filter-common button.ant-btn.ant-btn-default.blue {
+  background: #094174;
+}
+
+.button-common button.ant-btn.ant-btn-default.grey,
+.button-filter-common button.ant-btn.ant-btn-default.grey {
+  background: #E8EAEE;
+}
+
+.button-common button.ant-btn.ant-btn-default.orange,
+.button-filter-common button.ant-btn.ant-btn-default.orange {
+  background: #fe7524;
+}
+
+
+
+
+.button-common button.ant-btn.ant-btn-default.upload,
+.button-filter-common button.ant-btn.ant-btn-default.upload {
+  background: #E8EAEE;
+}
+
+.button-filter-common button.ant-btn.ant-btn-default.orange:hover,
+.button-filter-common button.ant-btn.ant-btn-default.blue:hover,
+.button-common button.ant-btn.ant-btn-default.orange:hover,
+.button-common button.ant-btn.ant-btn-default.blue:hover {
+  background: #3283cf;
+  color: #f5f5f5;
+}

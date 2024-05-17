@@ -1,0 +1,13 @@
+.action-common .option {
+    border-radius: 7px;
+    border: 1px solid #e3e3e3;
+}
+
+.action-common .option .option-select {
+    width: 18px;
+    height: 18px;
+    color: #6b839f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}   

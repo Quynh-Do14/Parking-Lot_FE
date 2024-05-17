@@ -1,0 +1,24 @@
+.breadcumb-container {
+    /* background: #F0EEEE; */
+    border-bottom: 1px solid #e3e3e3;
+}
+
+.breadcumb-container .page-name {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    text-align: left;
+    color: #094174;
+}
+
+.breadcumb-container .breadcumb,
+.breadcumb-container .breadcumb-title {
+    color: #094174;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+}

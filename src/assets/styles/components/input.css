@@ -1,0 +1,270 @@
+.input-common .title,
+.select-common .title {
+  text-align: left;
+}
+
+.input-common .title .is-required,
+.select-common .title .is-required {
+  color: #FF1422;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.15px;
+}
+
+.input-common .title .label,
+.select-common .title .label {
+  color: #094174;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  text-align: left;
+}
+
+.input-common input.ant-input.ant-input-outlined,
+.input-common .ant-input-number,
+.input-common .ant-input-number,
+.input-common .ant-picker.ant-picker-middle.input-date-common,
+.input-common .ant-input-affix-wrapper {
+  border-radius: 8px !important;
+  height: 36px;
+}
+
+/* .input-common input.ant-input.ant-input-outlined::placeholder,
+.input-common .ant-input-number::placeholder,
+.input-common .ant-input-number::placeholder,
+.input-common .ant-picker.ant-picker-middle.input-date-common::placeholder,
+.input-common .ant-input-affix-wrapper::placeholder,
+.input-common .ant-input-outlined.ant-input-password::placeholder {
+  font-size: 12px;
+} */
+
+.input-common .ant-input-outlined.input-error,
+.input-common .ant-input-number.input-error,
+.input-common .ant-input-number.input-error,
+.input-common .ant-picker.ant-picker-middle.input-date-common.input-error,
+.input-common .ant-input-affix-wrapper.input-error,
+.input-common .input-error .ant-select-selector{
+  border: #f61a1a solid 1px !important;
+}
+
+.input-common input.ant-input.ant-input-outlined,
+.input-common textarea.ant-input,
+.input-common span.ant-select-selection-item,
+.input-common .ant-picker .ant-picker-input>input {
+  color: var(--00-on-surface-high-emphasis, rgba(0, 0, 0, 0.87));
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  /* line-height: 24px; */
+  letter-spacing: 0.15px;
+}
+
+.input-common span.ant-input-affix-wrapper.ant-input-password.ant-input-password-middle {
+  border-radius: 0;
+}
+
+/* upload */
+.made-by {
+  text-align: center;
+  padding-top: 50px;
+  color: #896746;
+}
+
+.file-wrapper {
+  width: 200px;
+  height: 200px;
+  border: 2px dashed #fe7524;
+  border-radius: 50%;
+  position: relative;
+  margin: auto;
+  margin-top: 5px;
+  left: 0;
+  right: 0;
+}
+
+.file-wrapper:after {
+  content: '+';
+  position: absolute;
+  color: #fe7524;
+  top: 0;
+  bottom: 28px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: max-content;
+  height: max-content;
+  display: block;
+  max-height: 85px;
+  font-size: 70px;
+  font-weight: bolder;
+}
+
+.file-wrapper:before {
+  content: 'Tải ảnh lên';
+  color: #fe7524;
+  font-size: 18px !important;
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: -10px auto;
+  bottom: 48px;
+  width: max-content;
+  height: max-content;
+  font-size: 0.75em;
+}
+
+.file-wrapper:hover:after {
+  font-size: 73px;
+}
+
+.file-wrapper .close-btn {
+  display: none;
+}
+
+input[type="file"] {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 99999;
+  cursor: pointer;
+}
+
+.file-set {
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: transparent;
+  padding: 10px;
+  border-width: 0px;
+}
+
+.file-set:hover {
+  transition: all 0.5s ease-out;
+  filter: brightness(110%);
+}
+
+.file-set:before {
+  color: transparent;
+}
+
+.file-set:after {
+  color: transparent;
+}
+
+.file-set .close-btn {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  display: block;
+  background: #000;
+  color: #fff;
+  top: 0;
+  right: 0;
+  font-size: 25px;
+  text-align: center;
+  line-height: 1.5;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.file-set>input {
+  pointer-events: none;
+}
+
+p.ant-upload-text {
+  color: #094174 !important;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 20px;
+  text-align: center;
+  margin: 20px 0 20px;
+
+  small {
+    display: block;
+    font-size: 15px;
+    padding-top: 8px;
+    color: gray;
+  }
+}
+
+.avatar-upload {
+  position: relative;
+  max-width: 205px;
+  margin: 10px auto;
+
+  .avatar-edit {
+    position: absolute;
+    right: 12px;
+    z-index: 1;
+    top: 10px;
+
+    input {
+      display: none;
+
+      +label {
+        display: inline-block;
+        width: 34px;
+        height: 34px;
+        margin-bottom: 0;
+        border-radius: 100%;
+        background: #FFFFFF;
+        border: 1px solid transparent;
+        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+        cursor: pointer;
+        font-weight: normal;
+        transition: all .2s ease-in-out;
+
+        &:hover {
+          background: #f1f1f1;
+          border-color: #d6d6d6;
+        }
+
+        &:after {
+          content: "\f040";
+          font-family: 'FontAwesome';
+          color: #757575;
+          position: absolute;
+          top: 10px;
+          left: 0;
+          right: 0;
+          text-align: center;
+          margin: auto;
+        }
+      }
+    }
+  }
+
+  .avatar-preview {
+    width: 192px;
+    height: 192px;
+    position: relative;
+    border-radius: 100%;
+    border: 6px solid #F8F8F8;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+
+    >div {
+      width: 100%;
+      height: 100%;
+      border-radius: 100%;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+
+  .avatar-preview.rectangle {
+    border-radius: 15%;
+
+    >div {
+      border-radius: 15%;
+    }
+  }
+}
+
+/* upload */

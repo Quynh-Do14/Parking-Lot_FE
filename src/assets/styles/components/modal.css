@@ -1,0 +1,57 @@
+.modal-common .btn-ok {
+    border-radius: 15px;
+    background: #094174;
+    color: #FFF;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    height: 44px;
+    transition: .3s;
+    -webkit-transition: .3s;
+}
+
+.modal-common .btn-Cancel {
+    border-radius: 15px;
+    background: #fc2339;
+    color: #FFF;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    height: 44px;
+    transition: .3s;
+    -webkit-transition: .3s;
+}
+
+/* .modal-common .btn-Cancel:hover,
+.modal-common .btn-ok:hover {
+    background: #f4a070 !important;
+    color: #FFF !important;
+} */
+
+.modal-common .title {
+    color: #094174;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 48px;
+    letter-spacing: 0.5px;
+    text-align: center;
+    border-bottom: 1px solid #d5dfea;
+}
+
+.modal-common .message {
+    color: #094174;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 48px;
+    letter-spacing: 0.5px;
+    text-align: center;
+    border-bottom: 1px solid #d5dfea;
+}

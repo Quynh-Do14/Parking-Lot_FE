@@ -1,0 +1,181 @@
+.main-layout {
+    display: flex;
+    flex: 1;
+    height: 100vh;
+    flex-direction: row;
+    font-family: 'Mulish', sans-serif;
+    overflow: hidden;
+    background: #FFF;
+}
+
+.main-layout .header {
+    background: #FFF;
+    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.15);
+    height: 100px;
+    z-index: 9;
+}
+
+.main-layout .sider .btn-collap {
+    color: #D3D4D8;
+    padding: 20px;
+}
+
+.main-layout .ant-layout-sider-children {
+    background: #1C3E66;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.main-layout ul.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-light.menu {
+    background: #1C3E66;
+}
+
+.main-layout .header .avatar {
+    border-radius: 50%;
+}
+
+.main-layout .header .user-name {
+    color: #1C3E66;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 22px;
+}
+
+.main-layout .header .role {
+    color: #fe7524;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 22px;
+}
+
+.main-layout .header .logout {
+    color: #000;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+
+    border-radius: 5px;
+    background: #F4F2F2;
+    box-shadow: 3px 3px 6px 0px rgba(0, 0, 0, 0.25);
+    transition: box-shadow 0.6s ease-in-out;
+
+}
+
+
+.main-layout .header .logout:hover {
+    border-radius: 5px;
+    background: #F4F2F2;
+    box-shadow: 3px 3px 6px 3px rgba(0, 0, 0, 0.25);
+}
+
+.main-layout .content {
+    /* box-shadow: 3px 3px 10px 0px rgba(0, 0, 0, 0.25), -3px -3px 10px 0px rgba(0, 0, 0, 0.25); */
+}
+
+.action-admin .info-admin {
+    border-top: 1px solid #cccccc;
+    border-radius: 0px !important;
+}
+
+.action-admin .info-admin .info-admin-title {
+    color: #808080;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.main-layout .sider ul.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-light.menu.css-dev-only-do-not-override-pr0fja {
+    background: #094174;
+    display: flex;
+    padding: 25px 15px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.main-layout aside.ant-layout-sider.ant-layout-sider-dark.sider {
+    max-width: 240px !important;
+    width: 240px !important;
+    flex: 1 240px !important;
+}
+
+.main-layout aside.ant-layout-sider.ant-layout-sider-dark.ant-layout-sider-collapsed.sider {
+    max-width: 80px !important;
+    width: 80px !important;
+    flex: 1 80px !important;
+}
+
+.main-layout span.anticon.anticon-user.ant-menu-item-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-layout .sider li.ant-menu-item.menu-title {
+    color: #ffffff;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    display: flex;
+    height: 48px;
+    padding: 10px 15px;
+    align-items: center;
+    transition: .3s;
+    -webkit-transition: .3s;
+}
+
+.main-layout .sider li.ant-menu-item.menu-title:hover {
+    border-radius: 5px;
+    border: 1px solid #80EA66;
+    background: #fe7524;
+    box-shadow: 6px 4px 12px 0px #98f36d28;
+
+    color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    /* 160% */
+    letter-spacing: 0.15px;
+}
+
+.main-layout .sider li.ant-menu-item.menu-title.active {
+    border-radius: 5px;
+    background: #fe7524;
+    color: #383838;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    display: flex;
+    height: 48px;
+    padding: 10px 15px;
+    align-items: center;
+    transition: .3s;
+    -webkit-transition: .3s;
+}
+
+.main-layout .sider li.ant-menu-item.menu-title.active:hover {
+    background: #094174;
+    color: #fff;
+}
+
+.main-layout .content .header-page .filter-page {
+    /* background: #F0EEEE; */
+}
+
+.main-layout .content .header-page .title-page {
+    color: rgba(0, 0, 0, 0.90);
+    font-size: 27px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.2px;
+    text-align: left;
+}
