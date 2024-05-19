@@ -7,7 +7,7 @@ import { MessageError } from '../../controls/MessageError';
 type Props = {
     label: string,
     attribute: string,
-    dataAttribute: any,
+    dataAttribute?: any,
     isRequired: boolean,
     setData: Function,
     disabled: boolean,
@@ -31,7 +31,7 @@ const InputTextArrayCommon = (props: Props) => {
         submittedTime,
         setValidateAllItems,
         index,
-        data
+        data,
     } = props;
     const [value, setValue] = useState<string>("");
 
@@ -87,10 +87,13 @@ const InputTextArrayCommon = (props: Props) => {
     };
 
     useEffect(() => {
-        if (data[index]) {
+        if (dataAttribute) {
+            setValue(dataAttribute)
+        }
+        else if (data[index]) {
             setValue(data[index][attribute]);
         }
-    }, [index, data, attribute]);
+    }, [index, data, attribute, dataAttribute]);
 
 
     useEffect(() => {

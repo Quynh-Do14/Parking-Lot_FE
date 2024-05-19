@@ -13,7 +13,7 @@ export const PrivateRoute = ({ component: RoutePath }: any) => {
     const isAdmin = dataProfile.data.roles?.some((role) => role?.name?.includes("ADMIN"));
 
     if (dataProfile.data.roles.length > 0) {
-        if (storage) {
+        if (storage && isAdmin) {
             return RoutePath
         }
         else {

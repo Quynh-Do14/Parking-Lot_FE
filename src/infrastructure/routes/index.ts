@@ -12,6 +12,10 @@ import AddCustomerManagement from "../../pages/Manage/customer-management/add";
 import ViewCustomerManagement from "../../pages/Manage/customer-management/view";
 import RegularPass from "../../pages/Client/RegularPass";
 import RegisterPage from "../../pages/Auth/Register";
+import ListParkingReservationManagement from "../../pages/Manage/parking-reservation-management/list";
+import ViewParkingReservationManagement from "../../pages/Manage/parking-reservation-management/view";
+import ListRegularPassManagement from "../../pages/Manage/regular-pass/list";
+import ViewRegularPassManagement from "../../pages/Manage/regular-pass/view";
 
 export const privateRoutes = [
 
@@ -81,6 +85,27 @@ export const privateRoutes = [
     {
         path: ROUTE_PATH.VIEW_PARKING_LOT,
         component: ViewParkingLotManagement,
+        private: true,
+    },
+    {
+        path: ROUTE_PATH.PARKING_RESERVATION,
+        component: ListParkingReservationManagement,
+        private: true,
+    },
+    {
+        path: ROUTE_PATH.VIEW_PARKING_RESERVATION,
+        component: ViewParkingReservationManagement,
+        private: true,
+    },
+
+    {
+        path: ROUTE_PATH.REGULAR_PASS_ADMIN,
+        component: ListRegularPassManagement,
+        private: true,
+    },
+    {
+        path: ROUTE_PATH.VIEW_REGULAR_PASS_ADMIN,
+        component: ViewRegularPassManagement,
         private: true,
     },
 ]

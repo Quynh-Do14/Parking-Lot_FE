@@ -17,7 +17,12 @@ export default class Constants {
 
             {
                 label: "Quản lý đặt chỗ",
-                link: ROUTE_PATH.PARKING_SLIP,
+                link: ROUTE_PATH.PARKING_RESERVATION,
+                icon: UserOutlined
+            },
+            {
+                label: "Quản lý vé tháng",
+                link: ROUTE_PATH.REGULAR_PASS_ADMIN,
                 icon: UserOutlined
             },
         ]

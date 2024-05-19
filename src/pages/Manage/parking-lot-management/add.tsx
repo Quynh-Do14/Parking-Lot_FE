@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Row } from 'antd';
 import { ROUTE_PATH } from '../../../core/common/appRouter';
 import InputTextCommon from '../../../infrastructure/common/components/input/input-text';
@@ -28,7 +28,6 @@ const AddParkingLotManagement = () => {
             numberOfParkingSlots: 0
         },
     ])
-
     const [_data, _setData] = useState<any>({});
     const dataParking = _data;
 
@@ -79,7 +78,9 @@ const AddParkingLotManagement = () => {
             ...listBlock,
             {
                 index: Number(listBlock.length - 1) + 1,
-                blockCode: "",
+                block: {
+                    blockCode: ""
+                },
                 numberOfParkingSlots: 0
             },
         ])
@@ -91,8 +92,28 @@ const AddParkingLotManagement = () => {
         setListBlock(spliceOption)
     }
     console.log("listBlock", listBlock);
-    console.log("dataParking", dataParking);
 
+    useEffect(() => {
+        // const newArr = listBlock.map((it) => {
+        //     return {
+        //         block: {
+        //             blockCode: it.blockCode
+        //         },
+        //         numberOfParkingSlots: it.numberOfParkingSlots
+        //     }
+        // })
+        setListBlock(prev => prev.map((it) => {
+            console.log("it", it);
+
+            return {
+                block: {
+                    blockCode: it.blockCode
+                },
+                numberOfParkingSlots: it.numberOfParkingSlots
+            }
+        }))
+        // setListBlockConvert(newArr)
+    }, [])
 
     return (
         <MainLayout breadcrumb={"Quản lý bãi đỗ xe"} title={"Thêm bãi đỗ xe"} redirect={ROUTE_PATH.PARKING_LOT}>

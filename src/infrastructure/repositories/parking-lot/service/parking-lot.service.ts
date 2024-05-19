@@ -24,6 +24,24 @@ class ParkingLotService {
             setLoading(false);
         }
     };
+    async getParkingLotByIdAdmin(id: number, setLoading: Function) {
+        setLoading(true)
+        try {
+            return await RequestService
+                .get(`${Endpoint.ParkingLot.GetAdminShow}/${id}`)
+                .then(response => {
+                    if (response) {
+                        return response
+                    }
+                    setLoading(false)
+                    return response;
+                });
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setLoading(false);
+        }
+    };
     async getParkingLotById(id: number, setLoading: Function) {
         setLoading(true)
         try {
@@ -151,6 +169,45 @@ class ParkingLotService {
             setLoading(false);
         }
     }
+
+    async getParkingLotReservationsAdmin(params: object, setLoading: Function) {
+        setLoading(true)
+        try {
+            return await RequestService
+                .get(Endpoint.ParkingLot.GetReservationAdmin, {
+                    ...params
+                })
+                .then(response => {
+                    if (response) {
+                        return response
+                    }
+                    setLoading(false)
+                    return response;
+                });
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setLoading(false);
+        }
+    };
+    async getParkingLotReservationsAdminById(id: number, setLoading: Function) {
+        setLoading(true)
+        try {
+            return await RequestService
+                .get(`${Endpoint.ParkingLot.GetReservationAdmin}/${id}`)
+                .then(response => {
+                    if (response) {
+                        return response
+                    }
+                    setLoading(false)
+                    return response;
+                });
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setLoading(false);
+        }
+    };
 }
 
 export default new ParkingLotService();

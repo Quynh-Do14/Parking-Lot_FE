@@ -26,4 +26,9 @@ export const ROUTE_PATH = {
     VIEW_PARKING_SLIP: `${PREFIX}/parking-slip/view/:id`,
     ADD_PARKING_SLIP: `${PREFIX}/parking-slip/add`,
 
+    PARKING_RESERVATION: `${PREFIX}/parking-reservation`,
+    VIEW_PARKING_RESERVATION: `${PREFIX}/parking-reservation/view/:id`,
+
+    REGULAR_PASS_ADMIN: `${PREFIX}/regular-pass-admin`,
+    VIEW_REGULAR_PASS_ADMIN: `${PREFIX}/regular-pass-admin/view/:id`,
 }

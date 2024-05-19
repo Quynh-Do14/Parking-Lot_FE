@@ -25,10 +25,14 @@ const ViewParkingLotManagement = () => {
     const [imageUrl, setImageUrl] = useState(null);
     const [avatar, setAvatar] = useState(null);
     const [detailParking, setDetailParking] = useState<any>({});
+    const [detaiBlock, setDetaiBlock] = useState<any>([]);
+
     const [listBlock, setListBlock] = useState<Array<any>>([
         {
             index: 0,
-            blockCode: "",
+            block: {
+                blockCode: ""
+            },
             numberOfParkingSlots: 0
         },
     ])
@@ -62,11 +66,11 @@ const ViewParkingLotManagement = () => {
 
     const onGetParkingByIdAsync = async () => {
         try {
-            await parkingLotService.getParkingLotById(
+            await parkingLotService.getParkingLotByIdAdmin(
                 Number(param.id),
                 setLoading
             ).then((res) => {
-                setDetailParking(res.parkingLot)
+                setDetailParking(res)
             })
         }
         catch (error) {
@@ -86,6 +90,18 @@ const ViewParkingLotManagement = () => {
                 valetParkingAvailable: detailParking.valetParkingAvailable,
             });
         };
+        if (detailParking.blockAndParkingSlots) {
+            const newArr = detailParking.blockAndParkingSlots?.map((it: any) => {
+                return {
+                    block: {
+                        blockCode: it.block.blockCode
+                    },
+                    numberOfParkingSlots: it.numberOfParkingSlots,
+                }
+
+            })
+            setListBlock(newArr)
+        }
     }, [detailParking]);
 
     const onUpdateParking = async () => {
@@ -94,11 +110,12 @@ const ViewParkingLotManagement = () => {
             await parkingLotService.updateParkingLot(
                 Number(param.id),
                 {
+                    name: dataParking.name,
                     address: dataParking.address,
                     reentryAllowed: convertStringToBoolean(dataParking.reentryAllowed),
                     operatingCompanyName: dataParking.operatingCompanyName,
                     valetParkingAvailable: convertStringToBoolean(dataParking.valetParkingAvailable),
-                    blockCode: "Khu A"
+                    blockAndParkingSlots: listBlock
                 },
                 onBack,
                 setLoading
@@ -114,7 +131,9 @@ const ViewParkingLotManagement = () => {
             ...listBlock,
             {
                 index: Number(listBlock.length - 1) + 1,
-                blockCode: "",
+                block: {
+                    blockCode: ""
+                },
                 numberOfParkingSlots: 0
             },
         ])
@@ -124,7 +143,7 @@ const ViewParkingLotManagement = () => {
         const spliceOption = [...listBlock];
         spliceOption.splice(index, 1)
         setListBlock(spliceOption)
-    }
+    };
 
     return (
         <MainLayout breadcrumb={"Quản lý bãi đỗ xe"} title={"Thông tin bãi đỗ xe"} redirect={ROUTE_PATH.PARKING_LOT}>
@@ -212,6 +231,8 @@ const ViewParkingLotManagement = () => {
                                     {
                                         listBlock.length ?
                                             listBlock.map((it, index) => {
+                                                console.log("it", it);
+
                                                 return (
                                                     <div>
                                                         <div className='flex gap-2 items-center justify-between'>
@@ -234,9 +255,9 @@ const ViewParkingLotManagement = () => {
                                                         <Row gutter={[30, 0]}>
                                                             <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                                                                 <InputTextArrayCommon
-                                                                    dataAttribute={it.blockCode}
+                                                                    dataAttribute={it.block.blockCode}
                                                                     label={"Tên khu"}
-                                                                    attribute={"blockCode"}
+                                                                    attribute={"block"}
                                                                     isRequired={true}
                                                                     data={listBlock}
                                                                     setData={setListBlock}
@@ -258,8 +279,8 @@ const ViewParkingLotManagement = () => {
                                                                     disabled={false}
                                                                     validate={validate}
                                                                     setValidate={setValidate}
-                                                                    submittedTime={submittedTime} index={index}
-                                                                />
+                                                                    submittedTime={submittedTime}
+                                                                    index={index} />
                                                             </Col>
                                                         </Row>
                                                     </div>

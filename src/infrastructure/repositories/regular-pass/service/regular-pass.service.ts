@@ -48,6 +48,26 @@ class RegularPassService {
             setLoading(false);
         }
     }
+    async getRegularPassAdmin(params: object, setLoading: Function) {
+        setLoading(true)
+        try {
+            return await RequestService
+                .get(Endpoint.RegularPass.GetAdmin, {
+                    ...params
+                })
+                .then(response => {
+                    if (response) {
+                        return response
+                    }
+                    setLoading(false)
+                    return response;
+                });
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setLoading(false);
+        }
+    };
 }
 
 export default new RegularPassService();
