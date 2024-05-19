@@ -28,6 +28,7 @@ const AddParkingLotManagement = () => {
             numberOfParkingSlots: 0
         },
     ])
+
     const [_data, _setData] = useState<any>({});
     const dataParking = _data;
 
@@ -63,7 +64,7 @@ const AddParkingLotManagement = () => {
                 reentryAllowed: convertStringToBoolean(dataParking.reentryAllowed),
                 operatingCompanyName: dataParking.operatingCompanyName,
                 valetParkingAvailable: convertStringToBoolean(dataParking.valetParkingAvailable),
-                blockAndParkingSlots: listBlock
+                blockAndParkingSlots: convertListBlock()
             },
                 onBack,
                 setLoading
@@ -78,9 +79,7 @@ const AddParkingLotManagement = () => {
             ...listBlock,
             {
                 index: Number(listBlock.length - 1) + 1,
-                block: {
-                    blockCode: ""
-                },
+                blockCode: "",
                 numberOfParkingSlots: 0
             },
         ])
@@ -91,29 +90,17 @@ const AddParkingLotManagement = () => {
         spliceOption.splice(index, 1)
         setListBlock(spliceOption)
     }
-    console.log("listBlock", listBlock);
-
-    useEffect(() => {
-        // const newArr = listBlock.map((it) => {
-        //     return {
-        //         block: {
-        //             blockCode: it.blockCode
-        //         },
-        //         numberOfParkingSlots: it.numberOfParkingSlots
-        //     }
-        // })
-        setListBlock(prev => prev.map((it) => {
-            console.log("it", it);
-
+    const convertListBlock = () => {
+        const arr = listBlock.map((it) => {
             return {
                 block: {
                     blockCode: it.blockCode
                 },
                 numberOfParkingSlots: it.numberOfParkingSlots
             }
-        }))
-        // setListBlockConvert(newArr)
-    }, [])
+        })
+        return arr
+    }
 
     return (
         <MainLayout breadcrumb={"Quản lý bãi đỗ xe"} title={"Thêm bãi đỗ xe"} redirect={ROUTE_PATH.PARKING_LOT}>
