@@ -5,8 +5,8 @@ export default class Constants {
     static Menu = class {
         static List = [
             {
-                label: "Quản lý người dùng",
-                link: ROUTE_PATH.USER,
+                label: "Quản lý khách hàng",
+                link: ROUTE_PATH.CUSTOMER,
                 icon: UserOutlined
             },
             {
@@ -14,56 +14,24 @@ export default class Constants {
                 link: ROUTE_PATH.PARKING_LOT,
                 icon: UserOutlined
             },
-            {
-                label: "Quản lý khách hàng",
-                link: "/ab",
-                icon: UserOutlined
-            },
+
             {
                 label: "Quản lý đặt chỗ",
-                link: "/ab",
+                link: ROUTE_PATH.PARKING_SLIP,
                 icon: UserOutlined
+            },
+        ]
+    };
+    static MenuClient = class {
+        static List = [
+            {
+                label: "Bãi gửi xe",
+                link: ROUTE_PATH.HOMEPAGE,
             },
             {
-                label: "Quản lý báo cáo thống kê",
-                link: "/ab",
-                icon: UserOutlined
+                label: "Đặt vé tháng",
+                link: ROUTE_PATH.REGULAR_PASS,
             },
-            // {
-            //     label: "Quản lý nhà hàng",
-            //     link: ROUTE_PATH.RESTAURANT,
-            //     icon: <ScheduleOutlined />
-            // },
-            // {
-            //     label: "Quản lý khách sạn",
-            //     link: ROUTE_PATH.HOTEL,
-            //     icon: <ScheduleOutlined />
-            // },
-            // {
-            //     label: "Quản lý lễ hội",
-            //     link: ROUTE_PATH.FESTIVAL,
-            //     icon: <ScheduleOutlined />
-            // },
-            // {
-            //     label: "Quản lý đặc sản",
-            //     link: ROUTE_PATH.SPECIALTY,
-            //     icon: <TagsOutlined />
-            // },
-            // {
-            //     label: "Quản lý tin tức",
-            //     link: ROUTE_PATH.NEWS,
-            //     icon: <ContainerOutlined />
-            // },
-            // {
-            //     label: "Quản lý đánh giá",
-            //     link: ROUTE_PATH.EVALUATE,
-            //     icon: <ContainerOutlined />
-            // },
-            // {
-            //     label: "Quản lý quận huyện",
-            //     link: ROUTE_PATH.DISTRICT,
-            //     icon: <ProjectOutlined />
-            // },
         ]
     };
     static TOKEN = "token";
@@ -74,7 +42,6 @@ export default class Constants {
         static page = "page";
         static searchName = "searchName";
         static search = "search";
-        static idQuanHuyen = "idQuanHuyen";
         static idDanhMuc = "idDanhMuc";
         static parentId = "parentId"
     }

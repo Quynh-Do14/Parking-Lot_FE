@@ -12,7 +12,7 @@ export const getTokenStoraged = () => {
 };
 
 export const saveToken = (token: string) => {
-    sessionStorage.setItem("token", JSON.stringify(token));
+    sessionStorage.setItem("token", token);
 };
 
 export const getStorage = (data: string) => {

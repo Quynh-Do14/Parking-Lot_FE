@@ -21,16 +21,8 @@ class AuthService {
                     return response;
                 });
         } catch (error: any) {
-            // if (error?.response?.data?.errors[0]?.defaultMessage) {
-            //     FailMessage(messageConfig(error?.response?.data?.errors[0]?.defaultMessage), "")
-            // }
-            // if (error.response.data.message) {
-            //     FailMessage(messageConfig(error.response.data.message), "")
-            // }
-            // else {
             console.error(error)
             FailMessage("Đăng nhập không thành công", messageConfig(error.response.data.message))
-            // }
         } finally {
             setLoading(false);
         }
@@ -65,31 +57,65 @@ class AuthService {
         }
     }
 
-    // async register(data, setLoading) {
-    //     setLoading(true)
-    //     try {
-    //         return await RequestService.post(apiRoutes.common.auth.register, {
-    //             ...data
-    //         }).then(response => {
-    //             setLoading(false)
-    //             SuccessMessage("Đăng kí thành công", "Hãy xác thực Email để tham gia thi")
-    //             return response;
-    //         });
-    //     } catch (error) {
-    //         if (error.response.data.message) {
-    //             FailMessage(messageConfig(error.response.data.message), "")
-    //         }
-    //         if (error.response.data.errors[0]?.defaultMessage) {
-    //             FailMessage(messageConfig(error.response.data.errors[0]?.defaultMessage), "")
-    //         }
-    //         else {
-    //             FailMessage("Đăng kí không thành công", "Tài khoản của bạn chưa đúng")
-    //         }
-    //         console.error(error)
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // }
+    async updateProfile(data: any, onBack: Function, setLoading: Function) {
+        setLoading(true)
+        try {
+            return await RequestService
+                .put(Endpoint.Auth.ProfileUpdate, {
+                    ...data
+                })
+                .then(response => {
+                    if (response) {
+                        onBack();
+                        SuccessMessage("Cập nhật thành công", "")
+                    }
+                    setLoading(false);
+                    return response;
+                });
+        } catch (error: any) {
+            console.error(error)
+            FailMessage("Cập nhật không thành công", "Vui lòng kiểm tra thông tin")
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    async register(data: object, setLoading: Function) {
+        setLoading(true)
+        try {
+            return await RequestService.post(Endpoint.Auth.Register, {
+                ...data
+            }).then(response => {
+                setLoading(false)
+                SuccessMessage("Đăng kí thành công", "Hãy xác thực Email để tham gia thi")
+                return response;
+            });
+        } catch (error: any) {
+            FailMessage("Đăng nhập không thành công", messageConfig(error.response.data.message))
+            console.error(error)
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    async changePassword(data: object, onBack: Function, setLoading: Function) {
+        try {
+            return await RequestService.put(Endpoint.Auth.ChangePassword,
+                { ...data },
+            ).then(response => {
+                setLoading(false)
+                SuccessMessage("Thay đổi mật khẩu thành công", "")
+                onBack()
+                return response;
+            });
+        } catch (error: any) {
+            FailMessage("Thay đổi mật khẩu không thành công", messageConfig(error.response.data.message))
+            console.error(error)
+        } finally {
+            setLoading(false);
+        }
+    }
+
     // async verifyEmail(token, setLoading, callBack) {
     //     setLoading(true)
     //     try {

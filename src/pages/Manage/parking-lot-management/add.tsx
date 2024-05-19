@@ -7,19 +7,27 @@ import { FullPageLoading } from '../../../infrastructure/common/components/contr
 import { useNavigate } from 'react-router-dom';
 import { WarningMessage } from '../../../infrastructure/common/components/toast/notificationToast';
 import MainLayout from '../../../infrastructure/common/layout/MainLayout';
-import UploadAvatar from '../../../infrastructure/common/components/input/upload-image';
-import UploadImage from '../../../infrastructure/common/components/input/upload-image';
 import InputSelectCommon from '../../../infrastructure/common/components/input/select-common';
 import Constants from '../../../core/common/constants';
 import parkingLotService from '../../../infrastructure/repositories/parking-lot/service/parking-lot.service';
 import { convertStringToBoolean } from '../../../infrastructure/helper/helper';
+import { DeleteOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import InputNumberCommon from '../../../infrastructure/common/components/input/input-number';
+import InputTextArrayCommon from '../../../infrastructure/common/components/input/input-array/input-text';
+import InputNumberArrayCommon from '../../../infrastructure/common/components/input/input-array/input-number';
+import { Province } from '../../../infrastructure/utils/data';
 
 const AddParkingLotManagement = () => {
     const [validate, setValidate] = useState<any>({});
     const [loading, setLoading] = useState<boolean>(false);
     const [submittedTime, setSubmittedTime] = useState<any>();
-    const [imageUrl, setImageUrl] = useState(null);
-    const [avatar, setAvatar] = useState(null);
+    const [listBlock, setListBlock] = useState<Array<any>>([
+        {
+            index: 0,
+            blockCode: "",
+            numberOfParkingSlots: 0
+        },
+    ])
 
     const [_data, _setData] = useState<any>({});
     const dataParking = _data;
@@ -29,7 +37,7 @@ const AddParkingLotManagement = () => {
     const onBack = () => {
         navigate(ROUTE_PATH.PARKING_LOT)
     };
-    const setdataParking = (data: any) => {
+    const setDataParking = (data: any) => {
         Object.assign(dataParking, { ...data });
         _setData({ ...dataParking });
     };
@@ -51,11 +59,12 @@ const AddParkingLotManagement = () => {
         await setSubmittedTime(Date.now());
         if (isValidData()) {
             await parkingLotService.addParkingLot({
+                name: dataParking.name,
                 address: dataParking.address,
                 reentryAllowed: convertStringToBoolean(dataParking.reentryAllowed),
                 operatingCompanyName: dataParking.operatingCompanyName,
                 valetParkingAvailable: convertStringToBoolean(dataParking.valetParkingAvailable),
-                blockCode: "Khu A"
+                blockAndParkingSlots: listBlock
             },
                 onBack,
                 setLoading
@@ -65,7 +74,25 @@ const AddParkingLotManagement = () => {
             WarningMessage("Nhập thiếu thông tin", "Vui lòng nhập đầy đủ thông tin")
         };
     };
+    const onAddBlock = () => {
+        setListBlock([
+            ...listBlock,
+            {
+                index: Number(listBlock.length - 1) + 1,
+                blockCode: "",
+                numberOfParkingSlots: 0
+            },
+        ])
+    }
+
+    const onDeleteOption = (index: number) => {
+        const spliceOption = [...listBlock];
+        spliceOption.splice(index, 1)
+        setListBlock(spliceOption)
+    }
+    console.log("listBlock", listBlock);
     console.log("dataParking", dataParking);
+
 
     return (
         <MainLayout breadcrumb={"Quản lý bãi đỗ xe"} title={"Thêm bãi đỗ xe"} redirect={ROUTE_PATH.PARKING_LOT}>
@@ -90,7 +117,7 @@ const AddParkingLotManagement = () => {
                                         attribute={"name"}
                                         isRequired={true}
                                         dataAttribute={dataParking.name}
-                                        setData={setdataParking}
+                                        setData={setDataParking}
                                         disabled={false}
                                         validate={validate}
                                         setValidate={setValidate}
@@ -103,20 +130,7 @@ const AddParkingLotManagement = () => {
                                         attribute={"operatingCompanyName"}
                                         isRequired={true}
                                         dataAttribute={dataParking.operatingCompanyName}
-                                        setData={setdataParking}
-                                        disabled={false}
-                                        validate={validate}
-                                        setValidate={setValidate}
-                                        submittedTime={submittedTime}
-                                    />
-                                </Col>
-                                <Col xs={24} sm={24} md={24} lg={12} xl={12}>
-                                    <InputTextCommon
-                                        label={"Địa chỉ"}
-                                        attribute={"address"}
-                                        isRequired={true}
-                                        dataAttribute={dataParking.address}
-                                        setData={setdataParking}
+                                        setData={setDataParking}
                                         disabled={false}
                                         validate={validate}
                                         setValidate={setValidate}
@@ -125,11 +139,24 @@ const AddParkingLotManagement = () => {
                                 </Col>
                                 <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                                     <InputSelectCommon
+                                        label={"Địa chỉ"}
+                                        attribute={"address"}
+                                        isRequired={true}
+                                        dataAttribute={dataParking.address}
+                                        setData={setDataParking}
+                                        disabled={false}
+                                        validate={validate}
+                                        setValidate={setValidate}
+                                        submittedTime={submittedTime}
+                                        listDataOfItem={Province} />
+                                </Col>
+                                <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                    <InputSelectCommon
                                         label={"Cho phép quay lại"}
                                         attribute={"reentryAllowed"}
                                         isRequired={true}
                                         dataAttribute={dataParking.reentryAllowed}
-                                        setData={setdataParking}
+                                        setData={setDataParking}
                                         disabled={false}
                                         validate={validate}
                                         setValidate={setValidate}
@@ -143,13 +170,82 @@ const AddParkingLotManagement = () => {
                                         attribute={"valetParkingAvailable"}
                                         isRequired={true}
                                         dataAttribute={dataParking.valetParkingAvailable}
-                                        setData={setdataParking}
+                                        setData={setDataParking}
                                         disabled={false}
                                         validate={validate}
                                         setValidate={setValidate}
                                         submittedTime={submittedTime}
                                         listDataOfItem={Constants.ValetParkingAvailable.List}
                                     />
+                                </Col>
+                                <Col span={24}>
+                                    <div
+                                        className='flex gap-2 items-center cursor-pointer bg-[#e1e1e1] p-2 rounded-[4px]'
+                                        onClick={onAddBlock}
+                                    >
+                                        <div className='text-[#094174] font-semibold text-[15px] '>Thêm khu vực </div>
+                                        <PlusCircleOutlined className='text-[20px]' />
+                                    </div>
+                                    {
+                                        listBlock.length ?
+                                            listBlock.map((it, index) => {
+                                                return (
+                                                    <div key={index}>
+                                                        <div className='flex gap-2 items-center justify-between'>
+                                                            <div
+                                                                className='text-[#094174] 
+                                                                font-semibold text-[15px] py-2'
+                                                            >
+                                                                Khu vực {index + 1}
+                                                            </div>
+                                                            <button
+                                                                disabled={Number(index) == 0 ? true : false}
+                                                                onClick={() => onDeleteOption(index)}
+
+                                                            >
+                                                                <DeleteOutlined
+                                                                    className={`${Number(index) == 0 ? "cursor-not-allowed" : "cursor-pointer"} text-[24px]`}
+                                                                />
+                                                            </button>
+                                                        </div>
+                                                        <Row gutter={[30, 0]}>
+                                                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                                                <InputTextArrayCommon
+                                                                    dataAttribute={it.blockCode}
+                                                                    label={"Tên khu"}
+                                                                    attribute={"blockCode"}
+                                                                    isRequired={true}
+                                                                    data={listBlock}
+                                                                    setData={setListBlock}
+                                                                    disabled={false}
+                                                                    validate={validate}
+                                                                    setValidate={setValidate}
+                                                                    submittedTime={submittedTime}
+                                                                    index={index}
+                                                                />
+                                                            </Col>
+                                                            <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                                                <InputNumberArrayCommon
+                                                                    dataAttribute={it.numberOfParkingSlots}
+                                                                    label={"Số lượng chỗ"}
+                                                                    attribute={"numberOfParkingSlots"}
+                                                                    isRequired={true}
+                                                                    data={listBlock}
+                                                                    setData={setListBlock}
+                                                                    disabled={false}
+                                                                    validate={validate}
+                                                                    setValidate={setValidate}
+                                                                    submittedTime={submittedTime} index={index}
+                                                                />
+                                                            </Col>
+                                                        </Row>
+                                                    </div>
+
+                                                )
+                                            })
+                                            :
+                                            null
+                                    }
                                 </Col>
                             </Row>
                         </Col>

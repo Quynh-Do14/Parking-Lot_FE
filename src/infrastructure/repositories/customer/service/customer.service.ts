@@ -3,12 +3,12 @@ import { FailMessage, SuccessMessage } from "../../../common/components/toast/no
 import { RequestService } from "../../../utils/response";
 import { saveToken } from "../../../utils/storage";
 
-class ParkingLotService {
-    async getParkingLot(params: object, setLoading: Function) {
+class CustomerService {
+    async getCustomer(params: object, setLoading: Function) {
         setLoading(true)
         try {
             return await RequestService
-                .get(Endpoint.ParkingLot.Get, {
+                .get(Endpoint.Customer.Get, {
                     ...params
                 })
                 .then(response => {
@@ -24,11 +24,11 @@ class ParkingLotService {
             setLoading(false);
         }
     };
-    async getParkingLotById(id: number, setLoading: Function) {
+    async getCustomerById(id: number, setLoading: Function) {
         setLoading(true)
         try {
             return await RequestService
-                .get(`${Endpoint.ParkingLot.Get}/${id}`)
+                .get(`${Endpoint.Customer.Get}/${id}`)
                 .then(response => {
                     if (response) {
                         return response
@@ -42,11 +42,11 @@ class ParkingLotService {
             setLoading(false);
         }
     };
-    async addParkingLot(data: object, onBack: Function, setLoading: Function) {
+    async addCustomer(data: object, onBack: Function, setLoading: Function) {
         setLoading(true)
         try {
             return await RequestService
-                .post(Endpoint.ParkingLot.Add,
+                .post(Endpoint.Customer.Add,
                     data
                 )
                 .then(response => {
@@ -65,11 +65,11 @@ class ParkingLotService {
             setLoading(false);
         }
     }
-    async updateParkingLot(id: number, data: object, onBack: Function, setLoading: Function) {
+    async updateCustomer(id: number, data: object, onBack: Function, setLoading: Function) {
         setLoading(true)
         try {
             return await RequestService
-                .put(`${Endpoint.ParkingLot.Update}/${id}`,
+                .putForm(`${Endpoint.Customer.Update}/${id}`,
                     data
                 )
                 .then(response => {
@@ -88,11 +88,11 @@ class ParkingLotService {
             setLoading(false);
         }
     }
-    async deleteParkingLot(id: number, setLoading: Function) {
+    async deleteCustomer(id: number, setLoading: Function) {
         setLoading(true)
         try {
             return await RequestService
-                .delete(`${Endpoint.ParkingLot.Delete}/${id}`)
+                .delete(`${Endpoint.Customer.Delete}/${id}`)
                 .then(response => {
                     if (response) {
                         SuccessMessage("Xóa thành công", "")
@@ -108,49 +108,6 @@ class ParkingLotService {
             setLoading(false);
         }
     }
-    async getParkingLotReservations(params: object, setLoading: Function) {
-        setLoading(true)
-        try {
-            return await RequestService
-                .get(Endpoint.ParkingLot.GetReservations, {
-                    ...params
-                })
-                .then(response => {
-                    if (response) {
-                        return response
-                    }
-                    setLoading(false)
-                    return response;
-                });
-        } catch (error) {
-            console.error(error)
-        } finally {
-            setLoading(false);
-        }
-    };
-    async addParkingLotReservations(data: object, onBack: Function, setLoading: Function) {
-        setLoading(true)
-        try {
-            return await RequestService
-                .post(Endpoint.ParkingLot.GetReservations,
-                    data
-                )
-                .then(response => {
-                    if (response) {
-                        onBack()
-                        SuccessMessage("Đặt chỗ thành công", "")
-                        return response
-                    }
-                    setLoading(false)
-                    return response;
-                });
-        } catch (error) {
-            FailMessage("Đặt chỗ không thành công", "Vui lòng kiểm tra thông tin")
-            console.error(error)
-        } finally {
-            setLoading(false);
-        }
-    }
 }
 
-export default new ParkingLotService();
+export default new CustomerService();

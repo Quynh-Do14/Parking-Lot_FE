@@ -9,7 +9,8 @@ export const ProfileState = atom({
             username: "",
             email: "",
             avatar: "",
-            name: ""
+            name: "",
+            roles: <Array<any>>[]
         }
     }, // default value (aka initial value)
 });

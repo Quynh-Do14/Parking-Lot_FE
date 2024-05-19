@@ -5,22 +5,25 @@ import "../../../assets/styles/components/MainLayout.css";
 import profile from "../../../assets/images/profile.png";
 import { ROUTE_PATH } from '../../../core/common/appRouter';
 import authService from '../../repositories/auth/service/auth.service';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { BreadcrumbCommon } from './Breadcumb';
 import DialogConfirmCommon from '../components/modal/dialogConfirm';
 import Constants from '../../../core/common/constants';
+import { ProfileState } from '../../../core/atoms/profile/profileState';
+import car from '../../../assets/images/car.png';
 
 const { Header, Content, Sider } = Layout;
 
 const MainLayout = ({ ...props }: any) => {
     const { title, breadcrumb, redirect } = props
-    const [isOpenModalLogout, setIsOpenModalLogout] = useState(false);
-    const [collapsed, setCollapsed] = useState(false);
+    const [isOpenModalLogout, setIsOpenModalLogout] = useState<boolean>(false);
+    const [collapsed, setCollapsed] = useState<boolean>(false);
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState<boolean>(false);
     // const [, setDataPosition] = useRecoilState(PositionState);
     const [dataProfile, setDataProfile] = useState<any>({});
+    const [, setProfileState] = useRecoilState(ProfileState);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -39,7 +42,7 @@ const MainLayout = ({ ...props }: any) => {
             await authService.logout(
                 setLoading
             ).then(() => {
-                navigate(ROUTE_PATH.LOGIN);
+                navigate(ROUTE_PATH.HOMEPAGE);
                 window.location.reload();
             });
         } catch (error) {
@@ -53,7 +56,12 @@ const MainLayout = ({ ...props }: any) => {
                 () => { }
             ).then((response) => {
                 if (response) {
-                    setDataProfile(response)
+                    setDataProfile(response?.customer?.user)
+                    setProfileState(
+                        {
+                            data: response?.customer?.user
+                        }
+                    )
                 }
             })
         } catch (error) {
@@ -66,27 +74,10 @@ const MainLayout = ({ ...props }: any) => {
 
 
 
-    // const onGetMemberCardAsync = async () => {
-    //     const param = {}
-    //     try {
-    //         await memberCardService.getMemberCard(
-    //             param,
-    //             setLoading
-    //         ).then((res) => {
-    //             setDataMemberCard(res.content)
-    //         })
-    //     }
-    //     catch (error) {
-    //         console.error(error)
-    //     }
-    // }
-    // useEffect(() => {
-    //     onGetMemberCardAsync().then(_ => { });
-    // }, []);
     const listAction = () => {
         return (
             <Menu className='action-admin'>
-                <Menu.Item className='info-admin'>
+                {/* <Menu.Item className='info-admin'>
                     <div className='info-admin-title px-1 py-2 flex align-middle hover:text-[#5e5eff]'>
                         <svg className='mr-1-5' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="5" r="4" />
@@ -95,7 +86,7 @@ const MainLayout = ({ ...props }: any) => {
 
                         Thông tin cá nhân
                     </div>
-                </Menu.Item>
+                </Menu.Item> */}
                 <Menu.Item className='info-admin' onClick={openModalLogout}>
                     <div className='info-admin-title px-1 py-2 flex align-middle hover:text-[#fc5a5a]' >
                         <svg className='mr-1-5' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -115,7 +106,10 @@ const MainLayout = ({ ...props }: any) => {
             <Layout>
                 <Row className='header pl-16 pr-16' justify={"space-between"} align={"middle"}>
                     <Col className='flex align-middle'>
-                        {/* <img src={logo} alt='' height={60} /> */}
+                        {/* <div className="flex gap-4 m-auto" >
+                            <img src={car} alt="" />
+                            <div className="text-xl m-auto font-bold uppercase whitespace-nowrap">Quản lý đỗ xe</div>
+                        </div> */}
                     </Col>
                     <Col>
                         <Row align={"middle"} >
@@ -123,15 +117,12 @@ const MainLayout = ({ ...props }: any) => {
                                 <div className='user-name'>
                                     {dataProfile?.name}
                                 </div>
-                                {/* <div className='role'>
-                                    {dataProfile.roles[0]?.name}
-                                </div> */}
                             </Col>
                             <Col>
                                 <Dropdown overlay={listAction} trigger={['click']}>
                                     <a onClick={(e) => e.preventDefault()}>
                                         <Space>
-                                            <img className='avatar cursor-pointe' width={50} height={50} src={profile} alt='' />
+                                            <img className='avatar cursor-pointer' width={50} height={50} src={dataProfile.avatar ? dataProfile.avatar : profile} alt='' />
                                         </Space>
                                     </a>
                                 </Dropdown>
@@ -147,9 +138,9 @@ const MainLayout = ({ ...props }: any) => {
                                     <Menu.Item
                                         className={`${location.pathname.includes(it.link) ? "menu-title active" : "menu-title"}`}
                                         key={index} icon={<it.icon />}>
-                                        <a href={it.link}>
+                                        <Link to={it.link}>
                                             {it.label}
-                                        </a>
+                                        </Link>
                                     </Menu.Item>
                                 )
                             })}

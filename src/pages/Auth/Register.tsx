@@ -1,6 +1,6 @@
 import { Col, Row } from 'antd'
 import { useEffect, useState } from 'react'
-import "../../assets/styles/components/Login.css"
+import "../../assets/styles/components/Register.css"
 import { ROUTE_PATH } from '../../core/common/appRouter';
 import { useNavigate } from 'react-router-dom';
 import { FullPageLoading } from '../../infrastructure/common/components/controls/loading';
@@ -9,19 +9,19 @@ import InputTextCommon from '../../infrastructure/common/components/input/input-
 import InputPasswordCommon from '../../infrastructure/common/components/input/input-password';
 import authService from '../../infrastructure/repositories/auth/service/auth.service';
 import { WarningMessage } from '../../infrastructure/common/components/toast/notificationToast';
-const LoginPage = () => {
+const RegisterPage = () => {
     const [validate, setValidate] = useState<any>({});
     const [loading, setLoading] = useState<boolean>(false);
     const [submittedTime, setSubmittedTime] = useState<any>();
 
     const [_data, _setData] = useState<any>({});
-    const dataLogin = _data;
+    const dataRegister = _data;
 
     const navigate = useNavigate();
 
-    const setDataLogin = (data: any) => {
-        Object.assign(dataLogin, { ...data });
-        _setData({ ...dataLogin });
+    const setDataRegister = (data: any) => {
+        Object.assign(dataRegister, { ...data });
+        _setData({ ...dataRegister });
     };
 
     const isValidData = () => {
@@ -50,10 +50,12 @@ const LoginPage = () => {
         await setSubmittedTime(new Date())
         if (isValidData()) {
             try {
-                await authService.login(
+                await authService.register(
                     {
-                        username: dataLogin.username,
-                        password: dataLogin.password,
+                        username: dataRegister.username,
+                        password: dataRegister.password,
+                        name: dataRegister.name,
+                        email: dataRegister.email,
                     },
                     setLoading
                 ).then((response) => {
@@ -71,19 +73,49 @@ const LoginPage = () => {
     }
     return (
         <div>
-            <div className='login'>
+            <div className='register'>
                 <div className={"container"} id="container">
+                    <div className="overlay-container">
+                        <div className="overlay">
+                        </div>
+                    </div>
                     <div className="form-container sign-in-container">
                         <div className='form-flex'>
-                            <h1 className='mb-4 uppercase'>Đăng nhập</h1>
-                            <Row gutter={[10, 10]} justify={"end"}>
+                            <h1 className='mb-2 uppercase'>Đăng kí</h1>
+                            <Row gutter={[5, 5]}>
                                 <Col span={24}>
                                     <InputTextCommon
                                         label={"Tên đăng nhập"}
                                         attribute={"username"}
                                         isRequired={true}
-                                        dataAttribute={dataLogin.username}
-                                        setData={setDataLogin}
+                                        dataAttribute={dataRegister.username}
+                                        setData={setDataRegister}
+                                        disabled={false}
+                                        validate={validate}
+                                        setValidate={setValidate}
+                                        submittedTime={submittedTime}
+                                    />
+                                </Col>
+                                <Col span={24}>
+                                    <InputTextCommon
+                                        label={"Email"}
+                                        attribute={"email"}
+                                        isRequired={true}
+                                        dataAttribute={dataRegister.email}
+                                        setData={setDataRegister}
+                                        disabled={false}
+                                        validate={validate}
+                                        setValidate={setValidate}
+                                        submittedTime={submittedTime}
+                                    />
+                                </Col>
+                                <Col span={24}>
+                                    <InputTextCommon
+                                        label={"Tên người dùng"}
+                                        attribute={"name"}
+                                        isRequired={true}
+                                        dataAttribute={dataRegister.name}
+                                        setData={setDataRegister}
                                         disabled={false}
                                         validate={validate}
                                         setValidate={setValidate}
@@ -95,8 +127,8 @@ const LoginPage = () => {
                                         label={"Mật khẩu"}
                                         attribute={"password"}
                                         isRequired={true}
-                                        dataAttribute={dataLogin.password}
-                                        setData={setDataLogin}
+                                        dataAttribute={dataRegister.password}
+                                        setData={setDataRegister}
                                         disabled={false}
                                         validate={validate}
                                         setValidate={setValidate}
@@ -105,16 +137,11 @@ const LoginPage = () => {
                                 </Col>
                                 <Col span={24}>
                                     <div className='flex justify-end'>
-                                        {/* <div className='text-[13px] text-right transition duration-300 cursor-pointer text-[#094174] hover:underline'>Đổi mật khẩu</div> */}
-                                        <div onClick={() => navigate(ROUTE_PATH.REGISTER)} className='text-[13px] text-right transition duration-300 cursor-pointer text-[#094174] hover:underline'>Bạn chưa có tài khoản??</div>
+                                        <div onClick={() => navigate(ROUTE_PATH.LOGIN)} className='text-[13px] text-right transition duration-300 cursor-pointer text-[#094174] hover:underline'>Đã có tài khoản??</div>
                                     </div>
                                 </Col>
                             </Row>
                             <button onKeyPress={onLogin} className='w-full cursor-pointer' onClick={onLogin}>Đăng nhập</button>
-                        </div>
-                    </div>
-                    <div className="overlay-container">
-                        <div className="overlay">
                         </div>
                     </div>
                 </div>
@@ -125,4 +152,4 @@ const LoginPage = () => {
     )
 }
 
-export default LoginPage
+export default RegisterPage

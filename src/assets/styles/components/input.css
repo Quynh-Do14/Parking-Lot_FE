@@ -46,14 +46,16 @@
 .input-common .ant-input-number.input-error,
 .input-common .ant-picker.ant-picker-middle.input-date-common.input-error,
 .input-common .ant-input-affix-wrapper.input-error,
-.input-common .input-error .ant-select-selector{
+.input-common .input-error .ant-select-selector {
   border: #f61a1a solid 1px !important;
 }
 
 .input-common input.ant-input.ant-input-outlined,
 .input-common textarea.ant-input,
 .input-common span.ant-select-selection-item,
-.input-common .ant-picker .ant-picker-input>input {
+.input-common .ant-picker .ant-picker-input>input,
+.input-common input.ant-input-number-input,
+.input-common input.ant-input {
   color: var(--00-on-surface-high-emphasis, rgba(0, 0, 0, 0.87));
   font-size: 15px;
   font-style: normal;

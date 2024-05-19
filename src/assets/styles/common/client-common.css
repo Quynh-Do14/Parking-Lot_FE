@@ -1,7 +1,0 @@
-.home-page .each-car {
-    transition: 0.5s;
-}
-
-.home-page .each-car:hover {
-    background-color: #818181 !important;
-}

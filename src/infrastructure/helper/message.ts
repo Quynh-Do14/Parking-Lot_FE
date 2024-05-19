@@ -11,12 +11,17 @@ export const messageConfig = (message: string) => {
         case "wrong_password":
             return `Mật khẩu không chính xác. 
                     Vui lòng kiểm tra lại thông tin đăng nhập`;
-        // case "User with given email does not exist":
-        //     return `Tài khoản không tồn tại. 
-        //             Vui lòng đăng kí tài khoản để sử dụng hệ thống`;
-        // case "Your account have been unactive":
-        //     return `Tài khoản của bạn chưa được kích hoạt`;
+        case "username_exists":
+            return `Tài khoản đã tồn tại. 
+                    Vui lòng đăng kí tài khoản khác`;
+        case "email_exists":
+            return `Email đã được sử dụng. 
+                    Vui lòng đăng kí email khác khác`;
+        case "change_password_fail":
+            return `Mật khẩu hiện tại không chính xác`;
+        case "confirm_password_not_match":
+            return `Mật khẩu xác nhận không chính xác`;
         default:
-            return ""
+            return "Đã có lỗi xảy ra"
     }
 }

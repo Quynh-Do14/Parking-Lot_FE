@@ -14,9 +14,12 @@ import { ButtonCommon } from '../../../infrastructure/common/components/button/b
 import { TitleTableCommon } from '../../../infrastructure/common/components/text/title-table-common'
 import { PaginationCommon } from '../../../infrastructure/common/pagination/Pagination'
 import { ActionCommon } from '../../../infrastructure/common/components/action/action-common'
+import parkingLotService from '../../../infrastructure/repositories/parking-lot/service/parking-lot.service'
+import { AllowConfig } from '../../../infrastructure/common/components/controls/reentryAllowConfig'
+import { AvailableConfig } from '../../../infrastructure/common/components/controls/valetParkingAvailableConfig'
 
 let timeout: any
-const ListUserManagement = () => {
+const ListParkingLotManagement = () => {
     const [listUser, setListUser] = useState<Array<any>>([])
     const [total, setTotal] = useState<number>(0)
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -31,29 +34,29 @@ const ListUserManagement = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const onGetListUserAsync = async ({ name = "", size = pageSize, page = currentPage, startDate = "", endDate = "" }) => {
+    const onGetListParkingLotAsync = async ({ name = "", size = pageSize, page = currentPage, startDate = "", endDate = "" }) => {
         const param = {
             page: page - 1,
             size: size,
-            // name: name,
+            keyword: name,
             // startDate: startDate,
             // endDate: endDate,
         }
         try {
-            // await memberCardService.getMemberCard(
-            //     param,
-            //     setLoading
-            // ).then((res) => {
-            //     setListUser(res.content)
-            //     setTotal(res.totalElements)
-            // })
+            await parkingLotService.getParkingLot(
+                param,
+                setLoading
+            ).then((res) => {
+                setListUser(res.content)
+                setTotal(res.totalElements)
+            })
         }
         catch (error) {
             console.error(error)
         }
     }
     const onSearch = async (name = "", size = pageSize, page = 1, startDate = "", endDate = "") => {
-        await onGetListUserAsync({ name: name, size: size, page: page, startDate: startDate, endDate: endDate });
+        await onGetListParkingLotAsync({ name: name, size: size, page: page, startDate: startDate, endDate: endDate });
     };
 
     const onChangeSearchText = (e: any) => {
@@ -88,31 +91,31 @@ const ListUserManagement = () => {
     const onDeleteUser = async () => {
         setIsDeleteModal(false);
         try {
-            // await memberCardService.deleteMemberCard(
-            //     idSelected,
-            //     setLoading
-            // ).then((res) => {
-            //     if (res) {
-            //         onSearch().then(() => { })
-            //     }
-            // })
+            await parkingLotService.deleteParkingLot(
+                Number(idSelected),
+                setLoading
+            ).then((res) => {
+                if (res) {
+                    onSearch().then(() => { })
+                }
+            })
         }
         catch (error) {
             console.error(error)
         }
     }
     const onNavigate = (id: any) => {
-        navigate(`${(ROUTE_PATH.VIEW_USER).replace(`${Constants.UseParams.Id}`, "")}${id}`);
+        navigate(`${(ROUTE_PATH.VIEW_PARKING_LOT).replace(`${Constants.UseParams.Id}`, "")}${id}`);
     }
     return (
-        <MainLayout breadcrumb={"Quản lý người dùng"} title={"Danh sách người dùng"} redirect={""}>
+        <MainLayout breadcrumb={"Quản lý bãi đỗ xe"} title={"Danh sách bãi đỗ xe"} redirect={""}>
             <div className='flex flex-col header-page'>
                 <Row className='filter-page mb-2 py-2-5' gutter={[10, 10]} justify={"space-between"} align={"middle"}>
                     <Col xs={24} sm={24} lg={16}>
                         <Row align={"middle"} gutter={[10, 10]}>
                             <Col xs={24} sm={12} lg={12}>
                                 <InputSearchCommon
-                                    placeholder="Tìm kiếm theo tên..."
+                                    placeholder="Tìm kiếm theo tỉnh thành..."
                                     value={searchText}
                                     onChange={onChangeSearchText}
                                     disabled={false}
@@ -125,7 +128,7 @@ const ListUserManagement = () => {
                         <ButtonCommon
                             icon={<PlusOutlined />}
                             classColor="orange"
-                            onClick={() => navigate(ROUTE_PATH.ADD_USER)}
+                            onClick={() => navigate(ROUTE_PATH.ADD_PARKING_LOT)}
                             title={"Thêm mới"} />
                     </Col>
                 </Row>
@@ -150,32 +153,82 @@ const ListUserManagement = () => {
                     <Column
                         title={
                             <TitleTableCommon
-                                title="Người dùng"
-                                width={'200px'}
+                                title="Tên"
+                                width={'150px'}
                             />
                         }
-                        key={"id"}
-                        dataIndex={"id"}
+                        key={"name"}
+                        dataIndex={"name"}
                     />
                     <Column
                         title={
                             <TitleTableCommon
-                                title="Ngày bắt đầu"
-                                width={'200px'}
+                                title="Địa chỉ"
+                                width={'150px'}
                             />
                         }
-                        key={"startDay"}
-                        dataIndex={"startDay"}
+                        key={"address"}
+                        dataIndex={"address"}
                     />
                     <Column
                         title={
                             <TitleTableCommon
-                                title="Ngày kết thúc"
+                                title="Trực thuộc công ty"
                                 width={'200px'}
                             />
                         }
-                        key={"endDay"}
-                        dataIndex={"endDay"}
+                        key={"operatingCompanyName"}
+                        dataIndex={"operatingCompanyName"}
+                    />
+                    <Column
+                        title={
+                            <TitleTableCommon
+                                title="Cho phép quay lại"
+                                width={'160px'}
+                            />
+                        }
+                        key={"reentryAllowed"}
+                        dataIndex={"reentryAllowed"}
+                        render={(value) => {
+                            return (
+                                <AllowConfig reentryAllowed={value} />
+                            )
+                        }}
+                    />
+                    <Column
+                        title={
+                            <TitleTableCommon
+                                title="Số khu vực"
+                                width={'100px'}
+                            />
+                        }
+                        key={"numberOfBlocks"}
+                        dataIndex={"numberOfBlocks"}
+                    />
+                    <Column
+                        title={
+                            <TitleTableCommon
+                                title="Bắt buộc đặt chỗ trước"
+                                width={'160px'}
+                            />
+                        }
+                        key={"valetParkingAvailable"}
+                        dataIndex={"valetParkingAvailable"}
+                        render={(value) => {
+                            return (
+                                <AvailableConfig value={value} />
+                            )
+                        }}
+                    />
+                    <Column
+                        title={
+                            <TitleTableCommon
+                                title="Chỗ đã sử dụng"
+                                width={'120px'}
+                            />
+                        }
+                        key={"usedSlots"}
+                        dataIndex={"usedSlots"}
                     />
                     <Column
                         title={
@@ -218,9 +271,9 @@ const ListUserManagement = () => {
                 />
             </div>
             <DialogConfirmCommon
-                message={"Bạn có muốn xóa người dùng này ra khỏi hệ thống"}
+                message={"Bạn có muốn xóa bãi đỗ xe này ra khỏi hệ thống"}
                 titleCancel={"Bỏ qua"}
-                titleOk={"Xóa người dùng"}
+                titleOk={"Xóa bãi đỗ xe"}
                 visible={isDeleteModal}
                 handleCancel={onCloseModalDelete}
                 handleOk={onDeleteUser}
@@ -231,4 +284,4 @@ const ListUserManagement = () => {
     )
 }
 
-export default ListUserManagement
+export default ListParkingLotManagement

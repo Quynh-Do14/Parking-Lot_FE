@@ -1,11 +1,11 @@
 import React from 'react';
 import Constants from '../../../../core/common/constants';
 type Props = {
-    reentryAllowed: boolean
+    value: boolean
 }
-export const AllowConfig = ({ reentryAllowed }: Props) => {
-    switch (reentryAllowed) {
-        case Constants.ReentryAllowed.Allowed.value:
+export const AvailableConfig = ({ value }: Props) => {
+    switch (value) {
+        case Constants.ValetParkingAvailable.Available.value:
             return (
                 <div
                     className='bg-[#74f1a6] 
@@ -13,10 +13,10 @@ export const AllowConfig = ({ reentryAllowed }: Props) => {
                     font-semibold text-center
                     rounded-[2px]'
                 >
-                    {Constants.ReentryAllowed.Allowed.label}
+                    {Constants.ValetParkingAvailable.Available.label}
                 </div>
             )
-        case Constants.ReentryAllowed.NotAllowed.value:
+        case Constants.ValetParkingAvailable.Unavailable.value:
             return (
                 <div
                     className='bg-[#ff7b7b] 
@@ -24,7 +24,7 @@ export const AllowConfig = ({ reentryAllowed }: Props) => {
                     font-semibold text-center
                     rounded-[2px]'
                 >
-                    {Constants.ReentryAllowed.NotAllowed.label}
+                    {Constants.ValetParkingAvailable.Unavailable.label}
                 </div>
             )
         default:

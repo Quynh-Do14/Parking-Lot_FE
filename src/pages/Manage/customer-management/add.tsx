@@ -9,8 +9,9 @@ import { WarningMessage } from '../../../infrastructure/common/components/toast/
 import MainLayout from '../../../infrastructure/common/layout/MainLayout';
 import UploadAvatar from '../../../infrastructure/common/components/input/upload-image';
 import UploadImage from '../../../infrastructure/common/components/input/upload-image';
+import customerService from '../../../infrastructure/repositories/customer/service/customer.service';
 
-const AddUserManagement = () => {
+const AddCustomerManagement = () => {
     const [validate, setValidate] = useState<any>({});
     const [loading, setLoading] = useState<boolean>(false);
     const [submittedTime, setSubmittedTime] = useState<any>();
@@ -18,16 +19,16 @@ const AddUserManagement = () => {
     const [avatar, setAvatar] = useState(null);
 
     const [_data, _setData] = useState<any>({});
-    const dataUser = _data;
+    const dataCustomer = _data;
 
     const navigate = useNavigate();
 
     const onBack = () => {
-        navigate(ROUTE_PATH.USER)
+        navigate(ROUTE_PATH.CUSTOMER)
     };
-    const setDataUser = (data: any) => {
-        Object.assign(dataUser, { ...data });
-        _setData({ ...dataUser });
+    const setDataCustomer = (data: any) => {
+        Object.assign(dataCustomer, { ...data });
+        _setData({ ...dataCustomer });
     };
 
     const isValidData = () => {
@@ -43,21 +44,17 @@ const AddUserManagement = () => {
         return allRequestOK;
     };
 
-    const onAddUser = async () => {
+    const onAddCustomer = async () => {
         await setSubmittedTime(Date.now());
         if (isValidData()) {
-            // await memberService.addMember({
-            //     name: dataUser.name,
-            //     email: dataUser.email,
-            //     sex: dataUser.sex,
-            //     role: dataUser.role,
-            //     cccd: dataUser.cccd,
-            //     phone: dataUser.phone,
-            //     status: true,
-            // },
-            // onBack,
-            //     setLoading
-            // )
+            await customerService.addCustomer({
+                name: dataCustomer.name,
+                contactNumber: dataCustomer.contactNumber,
+                vehicleNumber: dataCustomer.vehicleNumber,
+            },
+                onBack,
+                setLoading
+            )
         }
         else {
             WarningMessage("Nhập thiếu thông tin", "Vui lòng nhập đầy đủ thông tin")
@@ -65,14 +62,14 @@ const AddUserManagement = () => {
     };
 
     return (
-        <MainLayout breadcrumb={"Quản lý người dùng"} title={"Thêm người dùng"} redirect={ROUTE_PATH.USER}>
+        <MainLayout breadcrumb={"Quản lý khách hàng"} title={"Thêm khách hàng"} redirect={ROUTE_PATH.CUSTOMER}>
             <div className='main-page h-full flex-1 overflow-auto bg-white px-4 py-8'>
                 <div className='bg-white scroll-auto'>
                     <Row>
                         <Col xs={24} sm={24} md={12} lg={8} xl={6} xxl={5} className='border-add flex justify-center'>
                             <div className='legend-title'>Thêm mới ảnh</div>
                             <UploadImage
-                                attributeImg={dataUser.avatar}
+                                attributeImg={dataCustomer.avatar}
                                 imageUrl={imageUrl}
                                 setAvatar={setAvatar}
                                 setImageUrl={setImageUrl}
@@ -81,39 +78,27 @@ const AddUserManagement = () => {
                         <Col xs={24} sm={24} md={12} lg={16} xl={18} xxl={19} className='border-add'>
                             <div className='legend-title'>Thêm thông tin mới</div>
                             <Row gutter={[30, 0]}>
+
                                 <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                                     <InputTextCommon
-                                        label={"Tên người dùng"}
-                                        attribute={"name"}
+                                        label={"Tên đăng nhập"}
+                                        attribute={"username"}
                                         isRequired={true}
-                                        dataAttribute={dataUser.name}
-                                        setData={setDataUser}
+                                        dataAttribute={dataCustomer.username}
+                                        setData={setDataCustomer}
                                         disabled={false}
                                         validate={validate}
                                         setValidate={setValidate}
                                         submittedTime={submittedTime}
                                     />
                                 </Col>
-                                {/* <Col xs={24} sm={24} md={24} lg={12} xl={12}>
-                                    <InputSelectMemberCardCommon
-                                        label={"Thẻ người dùng"}
-                                        attribute={"memberCard"}
-                                        isRequired={true}
-                                        dataAttribute={dataUser.memberCard}
-                                        setData={setDataUser}
-                                        disabled={false}
-                                        validate={validate}
-                                        setValidate={setValidate}
-                                        submittedTime={submittedTime}
-                                    />
-                                </Col> */}
                                 <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                                     <InputTextCommon
                                         label={"Email"}
                                         attribute={"email"}
                                         isRequired={true}
-                                        dataAttribute={dataUser.email}
-                                        setData={setDataUser}
+                                        dataAttribute={dataCustomer.email}
+                                        setData={setDataCustomer}
                                         disabled={false}
                                         validate={validate}
                                         setValidate={setValidate}
@@ -122,11 +107,11 @@ const AddUserManagement = () => {
                                 </Col>
                                 <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                                     <InputTextCommon
-                                        label={"Căn cước công dân"}
-                                        attribute={"cccd"}
+                                        label={"Tên khách hàng"}
+                                        attribute={"name"}
                                         isRequired={true}
-                                        dataAttribute={dataUser.cccd}
-                                        setData={setDataUser}
+                                        dataAttribute={dataCustomer.name}
+                                        setData={setDataCustomer}
                                         disabled={false}
                                         validate={validate}
                                         setValidate={setValidate}
@@ -136,10 +121,23 @@ const AddUserManagement = () => {
                                 <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                                     <InputTextCommon
                                         label={"Số điện thoại"}
-                                        attribute={"phone"}
+                                        attribute={"contactNumber"}
                                         isRequired={true}
-                                        dataAttribute={dataUser.phone}
-                                        setData={setDataUser}
+                                        dataAttribute={dataCustomer.contactNumber}
+                                        setData={setDataCustomer}
+                                        disabled={false}
+                                        validate={validate}
+                                        setValidate={setValidate}
+                                        submittedTime={submittedTime}
+                                    />
+                                </Col>
+                                <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                                    <InputTextCommon
+                                        label={"Biển số xe"}
+                                        attribute={"vehicleNumber"}
+                                        isRequired={true}
+                                        dataAttribute={dataCustomer.vehicleNumber}
+                                        setData={setDataCustomer}
                                         disabled={false}
                                         validate={validate}
                                         setValidate={setValidate}
@@ -163,7 +161,7 @@ const AddUserManagement = () => {
                     </Col>
                     <Col className='mx-1'>
                         <ButtonCommon
-                            onClick={onAddUser}
+                            onClick={onAddCustomer}
                             classColor="orange"
                             icon={null}
                             title={'Thêm mới'}
@@ -176,4 +174,4 @@ const AddUserManagement = () => {
     )
 }
 
-export default AddUserManagement
+export default AddCustomerManagement

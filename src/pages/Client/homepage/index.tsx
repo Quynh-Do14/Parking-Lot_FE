@@ -4,8 +4,7 @@ import carIcon from "../../../assets/images/car.png"
 import ListParkingPage from './list';
 const HomePage = () => {
   return (
-    <div>
-      <ListParkingPage />
+    <div className='container'>
     </div>
 
   )

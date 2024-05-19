@@ -4,7 +4,7 @@ import "../../../../assets/styles/components/button.css"
 type Props = {
     classColor: "blue" | "gradient" | "grey" | "black" | "orange",
     onClick: Function,
-    icon: any,
+    icon?: any,
     title: string
 }
 export const ButtonCommon = (props: Props) => {

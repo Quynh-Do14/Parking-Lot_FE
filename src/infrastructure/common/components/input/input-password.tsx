@@ -14,6 +14,7 @@ type Props = {
     validate: any,
     setValidate: Function,
     submittedTime: any,
+    data?: any
 }
 const InputPasswordCommon = (props: Props) => {
     const {
@@ -25,7 +26,8 @@ const InputPasswordCommon = (props: Props) => {
         disabled = false,
         validate,
         setValidate,
-        submittedTime
+        submittedTime,
+        data
     } = props;
     const [value, setValue] = useState<string>("");
 
@@ -53,8 +55,19 @@ const InputPasswordCommon = (props: Props) => {
                 checkValidate = validateCMND(value);
                 validateFields(isImplicitChange, attribute, !checkValidate, setValidate, validate, !checkValidate ? value ? `${label} bao gồm 12 số` : `Vui lòng nhập ${labelLower}` : "");
             }
+            // if (attribute == "newPassword") {
+            //     if (data?.confirmPassword !== data?.newPassword) {
+            //         validateFields(false, "newPassword", !checkValidate, setValidate, validate, value ? `Mật khẩu xác nhận không trùng với mật khẩu mới` : "");
+            //     }
+            // };
+            // if (attribute == "confirmPassword") {
+            //     if (data?.confirmPassword !== data?.newPassword) {
+            //         validateFields(false, "confirmPassword", !checkValidate, setValidate, validate, value ? `Mật khẩu xác nhận không trùng với mật khẩu mới` : "");
+            //     }
+            // };
         }
     };
+    console.log("validate", validate);
 
     useEffect(() => {
         setValue(dataAttribute || '');
