@@ -156,7 +156,6 @@ class ParkingLotService {
                 )
                 .then(response => {
                     if (response) {
-                        window.open(response.vnpayUrl, '_blank');
                         onBack()
                         SuccessMessage("Đặt chỗ thành công", "")
                         return response

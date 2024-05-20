@@ -69,7 +69,8 @@ const ModalHistory = (props: Props) => {
                 setLoading
             ).then((res) => {
                 if (res) {
-                    setIsDeleteModal(true);
+                    setIsDeleteModal(false);
+                    onSearch().then(() => { })
                 }
             })
         }
@@ -118,6 +119,8 @@ const ModalHistory = (props: Props) => {
                                         <div>Tên bãi: {it.parkingSlot.block.parkingLot.name} - {it.parkingSlot.block.parkingLot.address} </div>
                                         <div>Khu: {it.parkingSlot.block.blockCode} - {it.parkingSlot.slotNumber} </div>
                                         <div>Giá vé: {formatCurrencyVND(String(it.cost))}</div>
+                                        <div>Ngày đặt: {convertDateShow(it.bookingDate)} </div>
+                                        
                                     </div>
                                 </Col>
                                 <Col xs={24} sm={24} md={10} className='flex flex-col gap-2 bg-[#ffffff] border-2 border-[#c4c4c4] '>

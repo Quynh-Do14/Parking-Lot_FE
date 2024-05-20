@@ -1,4 +1,4 @@
-import { ContainerOutlined, DatabaseOutlined, EnvironmentOutlined, MessageOutlined, ProjectOutlined, ScheduleOutlined, TagsOutlined, UserOutlined } from "@ant-design/icons";
+import { CalendarOutlined, ContainerOutlined, DatabaseOutlined, EnvironmentOutlined, MessageOutlined, ProjectOutlined, ScheduleOutlined, TableOutlined, TagOutlined, TagsOutlined, UserOutlined } from "@ant-design/icons";
 import { ROUTE_PATH } from "./appRouter";
 
 export default class Constants {
@@ -12,18 +12,18 @@ export default class Constants {
             {
                 label: "Quản lý bãi đỗ xe",
                 link: ROUTE_PATH.PARKING_LOT,
-                icon: UserOutlined
+                icon: TableOutlined
             },
 
             {
                 label: "Quản lý đặt chỗ",
                 link: ROUTE_PATH.PARKING_RESERVATION,
-                icon: UserOutlined
+                icon: CalendarOutlined
             },
             {
                 label: "Quản lý vé tháng",
                 link: ROUTE_PATH.REGULAR_PASS_ADMIN,
-                icon: UserOutlined
+                icon: TagOutlined
             },
         ]
     };

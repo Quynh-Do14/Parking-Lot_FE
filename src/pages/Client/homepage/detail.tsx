@@ -74,8 +74,27 @@ const DetailParkingPage = () => {
 
 
     const disabledDate = (current: any) => {
-        return current && current <= moment().startOf('day');
+        return current && current < moment().startOf('day');
     };
+    // const disabledDateTime = () => {
+    //     const current = moment();
+    //     const disableHours: any[] = [];
+    //     const disableMinutes: any[] = [];
+
+    //     for (let i = 0; i < current.hour(); i++) {
+    //         disableHours.push(i);
+    //     }
+
+    //     if (current.isSame(moment(), 'hour')) {
+    //         for (let i = 0; i < current.minute(); i++) {
+    //             disableMinutes.push(i);
+    //         }
+    //     }
+    //     return {
+    //         disabledHours: () => disableHours,
+    //         disabledMinutes: () => disableMinutes,
+    //     };
+    // };
 
     const onChangeDate = (date: any,) => {
         setStartDate(date)
@@ -145,8 +164,11 @@ const DetailParkingPage = () => {
                         onGetParkingReservationsByIdAsync();
                     },
                     setLoading
-                ).then((res) => {
-                    setDataAvailabel(res)
+                ).then((response) => {
+                    if (!dataProfileState.regularPass?.statusNow || dataProfileState.regularPass == null) {
+                        window.open(response.vnpayUrl, '_blank');
+                    }
+                    setDataAvailabel(response)
                 })
             }
             catch (error) {
@@ -166,29 +188,36 @@ const DetailParkingPage = () => {
     const onCloseModalReveration = () => {
         setIsReverationModal(false);
     };
-    // const viewStarEvaluate = (slot: number) => {
-    //     const stars = [];
-    //     for (let i = 0; i < slot; i++) {
-    //         stars.push(
-    //             <Col
-    //                 xl={4} lg={6} md={8} sm={12} xs={24}
-    //                 key={i}
-    //             >
-    //                 <div
-    //                     className='cursor-pointer bg-[#1C3E66] 
-    //                     border-2 border-[#c4c4c4] p-4 transition
-    //                     duration-300 hover:bg-[#818181] w-full'>
+    const viewStarEvaluate = (slot: number) => {
+        const stars = [];
+        for (let i = 0; i < slot; i++) {
+            stars.push(
+                <Col
+                    xl={4} lg={6} md={8} sm={12} xs={24}
+                    key={i}
+                >
+                    <div
+                        className='cursor-pointer bg-[#1C3E66] 
+                        border-2 border-[#c4c4c4] p-4 transition
+                        duration-300 hover:bg-[#818181] w-full'>
 
-    //                     <div className='flex items-center justify-center gap-1'>
-    //                         <img src={carIcon} />
-    //                         <div className='font-semibold text-[16px] text-[#FFF]'>- {i + 1} </div>
-    //                     </div>
-    //                 </div>
-    //             </Col>
-    //         );
-    //     }
-    //     return stars
-    // }
+                        <div className='flex items-center justify-center gap-1'>
+                            <img src={carIcon} />
+                            <div className='font-semibold text-[16px] text-[#FFF]'>- {i + 1} </div>
+                        </div>
+                    </div>
+                </Col>
+            );
+        }
+        return stars
+    }
+    useEffect(() => {
+        if (dataAvailable.length) {
+            dataAvailable.sort((a, b) => {
+                return Number(a.block.id) - Number(b.block.id)
+            })
+        }
+    }, [dataAvailable])
 
     return (
         <LayoutClient>
@@ -209,6 +238,7 @@ const DetailParkingPage = () => {
                                     placeholder={`Chọn ngày đặt chỗ`}
                                     onChange={onChangeDate}
                                     disabledDate={disabledDate}
+                                    // showTime={{ disabledTime: disabledDateTime }}
                                     format={"DD/MM/YYYY hh:mm:ss"}
                                     showTime={true}
                                 />
@@ -248,7 +278,7 @@ const DetailParkingPage = () => {
                                         <p className='font-semibold text-[20px] text-[#1e1e1e] mb-3'>{it.block.blockCode} - {it.block.numberOfParkingSlots} chỗ</p>
 
                                         <div className='flex justify-center'>
-                                            <Row gutter={[5, 5]} justify={'start'}>
+                                            <Row gutter={[5, 5]} justify={'start'} className='w-full'>
                                                 {/* {viewStarEvaluate(it.block.numberOfParkingSlots)} */}
                                                 {
                                                     it?.availableParkingSlots?.map((item: any, indexX: number) => {

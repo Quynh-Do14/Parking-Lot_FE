@@ -67,7 +67,6 @@ const InputPasswordCommon = (props: Props) => {
             // };
         }
     };
-    console.log("validate", validate);
 
     useEffect(() => {
         setValue(dataAttribute || '');
