@@ -31,7 +31,7 @@ export default class Constants {
         static List = [
             {
                 label: "Bãi gửi xe",
-                link: ROUTE_PATH.HOMEPAGE,
+                link: ROUTE_PATH.PARKING_LOT_CLIENT,
             },
             {
                 label: "Đặt vé tháng",

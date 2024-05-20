@@ -42,7 +42,7 @@ const MainLayout = ({ ...props }: any) => {
             await authService.logout(
                 setLoading
             ).then(() => {
-                navigate(ROUTE_PATH.HOMEPAGE);
+                navigate(ROUTE_PATH.LOGIN);
                 window.location.reload();
             });
         } catch (error) {
@@ -59,7 +59,10 @@ const MainLayout = ({ ...props }: any) => {
                     setDataProfile(response?.customer?.user)
                     setProfileState(
                         {
-                            data: response?.customer?.user
+                            user: response?.customer?.user,
+                            contactNumber: response?.customer?.contactNumber,
+                            vehicleNumber: response?.customer?.vehicleNumber,
+                            regularPass: response?.regularPass
                         }
                     )
                 }

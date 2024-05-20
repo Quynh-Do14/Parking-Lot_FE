@@ -46,7 +46,8 @@
 .input-common .ant-input-number.input-error,
 .input-common .ant-picker.ant-picker-middle.input-date-common.input-error,
 .input-common .ant-input-affix-wrapper.input-error,
-.input-common .input-error .ant-select-selector {
+.input-common .input-error .ant-select-selector,
+.input-common .input-error .input-date-common.input-error {
   border: #f61a1a solid 1px !important;
 }
 

@@ -10,6 +10,7 @@ import { AvailableConfig } from '../../../infrastructure/common/components/contr
 import LayoutClient from '../../../infrastructure/common/layout/Layout-Client'
 import { PaginationCommon } from '../../../infrastructure/common/pagination/Pagination'
 import { Province } from '../../../infrastructure/utils/data'
+import { isTokenStoraged } from '../../../infrastructure/utils/storage'
 
 let timeout: any
 const ListParkingPage = () => {
@@ -24,7 +25,12 @@ const ListParkingPage = () => {
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
-
+    const storage = isTokenStoraged()
+    useEffect(() => {
+        if (!storage) {
+            navigate(ROUTE_PATH.LOGIN);
+        }
+    }, [])
     const onGetListParkingLotAsync = async ({ name = "", address = "", size = pageSize, page = currentPage, startDate = "", endDate = "" }) => {
         const param = {
             page: page - 1,
@@ -84,7 +90,7 @@ const ListParkingPage = () => {
 
                 <div className='bg-[#fffffff3] border-2 p-6 rounded-[8px]'>
                     <Row gutter={[20, 20]} align={"bottom"}>
-                        <Col span={10}>
+                        {/* <Col span={10}>
                             <div className='input-common'>
                                 <div className='title mb-2'>
                                     <span className='label'>Tìm theo tên bãi đỗ xe</span>
@@ -97,7 +103,7 @@ const ListParkingPage = () => {
                                     placeholder={`Nhập tên bãi đỗ xe...`}
                                 />
                             </div>
-                        </Col>
+                        </Col> */}
                         <Col span={10}>
                             <div className='input-common'>
                                 <div className='title mb-2'>

@@ -10,14 +10,14 @@ export const PrivateRoute = ({ component: RoutePath }: any) => {
     const dataProfile = useRecoilValue(ProfileState);
     // const [isAdmin, setIsAdmin] = useState<boolean>(false)
 
-    const isAdmin = dataProfile.data.roles?.some((role) => role?.name?.includes("ADMIN"));
+    const isAdmin = dataProfile.user.roles?.some((role) => role?.name?.includes("ADMIN"));
 
-    if (dataProfile.data.roles.length > 0) {
+    if (dataProfile.user.roles.length > 0) {
         if (storage && isAdmin) {
             return RoutePath
         }
         else {
-            return <Navigate to={ROUTE_PATH.HOMEPAGE} />
+            return <Navigate to={ROUTE_PATH.LOGIN} />
         }
     }
 }

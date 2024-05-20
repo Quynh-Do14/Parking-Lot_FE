@@ -9,6 +9,7 @@ import { ButtonCommon } from '../components/button/button-common';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { ProfileState } from '../../../core/atoms/profile/profileState';
 import InputDateCommon from '../components/input/input-date';
+import { convertDateOnlyShow, formatCurrencyVND } from '../../helper/helper';
 
 type Props = {
   // handleOk: Function,
@@ -56,12 +57,15 @@ const ProfileModal = (props: Props) => {
     try {
       await authService.profile(
         setLoading
-      ).then((res) => {
-        setDetailProfile(res.customer.user)
-        setDetailCustomer(res.customer)
-        setRegularPass(res.regularPass)
+      ).then((response) => {
+        setDetailProfile(response.customer.user)
+        setDetailCustomer(response.customer)
+        setRegularPass(response.regularPass)
         setDetailState({
-          data: res.customer.user
+          user: response?.customer?.user,
+          contactNumber: response?.customer?.contactNumber,
+          vehicleNumber: response?.customer?.vehicleNumber,
+          regularPass: response?.regularPass
         })
       })
     }
@@ -223,7 +227,7 @@ const ProfileModal = (props: Props) => {
                       label={"Giá vé"}
                       attribute={"cost"}
                       isRequired={true}
-                      dataAttribute={dataProfile.cost}
+                      dataAttribute={formatCurrencyVND(String(dataProfile.cost))}
                       setData={setDataProfile}
                       disabled={true}
                       validate={validate}
@@ -236,7 +240,7 @@ const ProfileModal = (props: Props) => {
                       label={"Ngày mua vé"}
                       attribute={"purchaseDate"}
                       isRequired={true}
-                      dataAttribute={dataProfile.purchaseDate}
+                      dataAttribute={convertDateOnlyShow(dataProfile.purchaseDate)}
                       setData={setDataProfile}
                       disabled={true}
                       validate={validate}
@@ -249,7 +253,7 @@ const ProfileModal = (props: Props) => {
                       label={"Ngày bắt đầu"}
                       attribute={"startDate"}
                       isRequired={true}
-                      dataAttribute={dataProfile.startDate}
+                      dataAttribute={convertDateOnlyShow(dataProfile.startDate)}
                       setData={setDataProfile}
                       disabled={true}
                       validate={validate}
@@ -262,7 +266,7 @@ const ProfileModal = (props: Props) => {
                       label={"Ngày kết thúc"}
                       attribute={"endDate"}
                       isRequired={true}
-                      dataAttribute={dataProfile.endDate}
+                      dataAttribute={convertDateOnlyShow(dataProfile.endDate)}
                       setData={setDataProfile}
                       disabled={true}
                       validate={validate}

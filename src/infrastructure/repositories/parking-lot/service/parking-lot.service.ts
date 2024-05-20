@@ -1,5 +1,6 @@
 import { Endpoint } from "../../../../core/common/apiLink";
 import { FailMessage, SuccessMessage } from "../../../common/components/toast/notificationToast";
+import { messageConfig } from "../../../helper/message";
 import { RequestService } from "../../../utils/response";
 import { saveToken } from "../../../utils/storage";
 
@@ -155,6 +156,7 @@ class ParkingLotService {
                 )
                 .then(response => {
                     if (response) {
+                        window.open(response.vnpayUrl, '_blank');
                         onBack()
                         SuccessMessage("Đặt chỗ thành công", "")
                         return response
@@ -164,6 +166,27 @@ class ParkingLotService {
                 });
         } catch (error) {
             FailMessage("Đặt chỗ không thành công", "Vui lòng kiểm tra thông tin")
+            console.error(error)
+        } finally {
+            setLoading(false);
+        }
+    }
+    async deleteParkingLotReservations(id: number, onBack: Function, setLoading: Function) {
+        setLoading(true)
+        try {
+            return await RequestService
+                .delete(`${Endpoint.ParkingLot.DeleteReservation}/${id}`)
+                .then(response => {
+                    if (response) {
+                        onBack()
+                        SuccessMessage("Hủy đặt chỗ thành công", "")
+                        return response
+                    }
+                    setLoading(false)
+                    return response;
+                });
+        } catch (error: any) {
+            FailMessage("Hủy đặt chỗ không thành công", messageConfig(error.response.data.message))
             console.error(error)
         } finally {
             setLoading(false);
@@ -195,6 +218,26 @@ class ParkingLotService {
         try {
             return await RequestService
                 .get(`${Endpoint.ParkingLot.GetReservationAdmin}/${id}`)
+                .then(response => {
+                    if (response) {
+                        return response
+                    }
+                    setLoading(false)
+                    return response;
+                });
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setLoading(false);
+        }
+    };
+    async getParkingLotReservationsShow(params: object, setLoading: Function) {
+        setLoading(true)
+        try {
+            return await RequestService
+                .get(Endpoint.ParkingLot.GetReservationShow,
+                    { ...params }
+                )
                 .then(response => {
                     if (response) {
                         return response

@@ -122,13 +122,13 @@ const ListCustomerManagement = () => {
                         </Row>
 
                     </Col>
-                    <Col>
+                    {/* <Col>
                         <ButtonCommon
                             icon={<PlusOutlined />}
                             classColor="orange"
                             onClick={() => navigate(ROUTE_PATH.ADD_CUSTOMER)}
                             title={"Thêm mới"} />
-                    </Col>
+                    </Col> */}
                 </Row>
             </div>
             <div className='flex-1 overflow-auto bg-[#FFFFFF] content-page'>

@@ -34,6 +34,7 @@ class RegularPassService {
                 )
                 .then(response => {
                     if (response) {
+                        window.open(response.vnpayUrl, '_blank');
                         onBack()
                         SuccessMessage("Đặt vé thành công", "")
                         return response
@@ -43,6 +44,31 @@ class RegularPassService {
                 });
         } catch (error) {
             FailMessage("Đặt vé không thành công", "Vui lòng kiểm tra thông tin")
+            console.error(error)
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    async renewRegularPass(data: object, onBack: Function, setLoading: Function) {
+        setLoading(true)
+        try {
+            return await RequestService
+                .put(Endpoint.RegularPass.Renew,
+                    data
+                )
+                .then(response => {
+                    if (response) {
+                        window.open(response.vnpayUrl, '_blank');
+                        onBack()
+                        SuccessMessage("Gia hạn thành công", "")
+                        return response
+                    }
+                    setLoading(false)
+                    return response;
+                });
+        } catch (error) {
+            FailMessage("Gia hạn không thành công", "Vui lòng kiểm tra thông tin")
             console.error(error)
         } finally {
             setLoading(false);

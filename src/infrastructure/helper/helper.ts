@@ -36,6 +36,21 @@ export const convertDate = (date: any) => {
     } return null;
 
 };
+export const convertDateShow = (date: any) => {
+    if (date) {
+        let dateFormat = new Date(date);
+        return moment(dateFormat).format("hh:mm:ss DD-MM-YYYY");
+    } return null;
+
+};
+
+export const convertDateOnlyShow = (date: any) => {
+    if (date) {
+        let dateFormat = new Date(date);
+        return moment(dateFormat).format("DD-MM-YYYY");
+    } return null;
+
+};
 
 export const convertDateOnly = (date: any) => {
     if (date) {
@@ -50,3 +65,9 @@ export const convertDateBooking = (date: any) => {
         return moment(dateFormat).format("YYYY-MM-DDThh:mm:ss");
     } return null;
 };
+
+export const formatCurrencyVND = (amount: string) => {
+    // Định dạng số với phân cách hàng nghìn
+    let formattedAmount = amount.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return `${formattedAmount} ₫`;
+}

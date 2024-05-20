@@ -42,7 +42,7 @@ const RegisterPage = () => {
     const storage = isTokenStoraged()
     useEffect(() => {
         if (storage) {
-            navigate(ROUTE_PATH.HOMEPAGE);
+            navigate(ROUTE_PATH.LOGIN);
         };
     }, [])
 
@@ -60,7 +60,7 @@ const RegisterPage = () => {
                     setLoading
                 ).then((response) => {
                     if (response) {
-                        navigate(ROUTE_PATH.HOMEPAGE)
+                        navigate(ROUTE_PATH.LOGIN)
                     }
                 });
             } catch (error) {

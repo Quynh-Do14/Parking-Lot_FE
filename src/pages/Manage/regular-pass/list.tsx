@@ -12,6 +12,7 @@ import { InputDateSearchCommon } from '../../../infrastructure/common/components
 import { ActionEditCommon } from '../../../infrastructure/common/components/action/action-edit-common'
 import regularPassService from '../../../infrastructure/repositories/regular-pass/service/regular-pass.service'
 import { InputSearchCommon } from '../../../infrastructure/common/components/input/input-search-common'
+import { formatCurrencyVND } from '../../../infrastructure/helper/helper'
 
 let timeout: any
 const ListRegularPassManagement = () => {
@@ -194,7 +195,7 @@ const ListRegularPassManagement = () => {
                         dataIndex={"cost"}
                         render={(val) => {
                             return (
-                                <div>{val} VNĐ</div>
+                                <div>{formatCurrencyVND(String(val))}</div>
                             )
                         }}
                     />

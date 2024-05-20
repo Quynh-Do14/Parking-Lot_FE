@@ -17,7 +17,10 @@ function App() {
         if (response) {
           setProfileState(
             {
-              data: response?.customer?.user
+              user: response?.customer?.user,
+              contactNumber: response?.customer?.contactNumber,
+              vehicleNumber: response?.customer?.vehicleNumber,
+              regularPass: response?.regularPass,
             }
           )
         }

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import carIcon from "../../../assets/images/car.png"
 import noCarIcon from "../../../assets/images/no-car.png"
 import parkingLotService from '../../../infrastructure/repositories/parking-lot/service/parking-lot.service';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FullPageLoading } from '../../../infrastructure/common/components/controls/loading';
 import LayoutClient from '../../../infrastructure/common/layout/Layout-Client';
 import { AllowConfig } from '../../../infrastructure/common/components/controls/reentryAllowConfig';
@@ -12,8 +12,13 @@ import { ROUTE_PATH } from '../../../core/common/appRouter';
 import Constants from '../../../core/common/constants';
 import moment from 'moment';
 import { ButtonCommon } from '../../../infrastructure/common/components/button/button-common';
-import { convertDate, convertDateBooking } from '../../../infrastructure/helper/helper';
+import { convertDate, convertDateBooking, convertDateShow } from '../../../infrastructure/helper/helper';
 import DialogConfirmCommon from '../../../infrastructure/common/components/modal/dialogConfirm';
+import ModalInforReservation from '../../../infrastructure/common/components/modal/modalInforReservation';
+import { useRecoilValue } from 'recoil';
+import { ProfileState } from '../../../core/atoms/profile/profileState';
+import { WarningMessage } from '../../../infrastructure/common/components/toast/notificationToast';
+import { isTokenStoraged } from '../../../infrastructure/utils/storage';
 const DetailParkingPage = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [detailParking, setDetailParking] = useState<any>({});
@@ -23,6 +28,50 @@ const DetailParkingPage = () => {
     const [dataAvailable, setDataAvailabel] = useState<Array<any>>([])
     const [idSelected, setIdSelected] = useState<number>(0);
     const [isReverationModal, setIsReverationModal] = useState<boolean>(false);
+
+    const [_data, _setData] = useState<any>({});
+    const [submittedTime, setSubmittedTime] = useState<any>();
+    const [validate, setValidate] = useState<any>({});
+    const navigate = useNavigate();
+
+    const storage = isTokenStoraged()
+    useEffect(() => {
+        if (!storage) {
+            navigate(ROUTE_PATH.LOGIN);
+        }
+    }, [])
+
+    const dataProfile = _data;
+
+    const setDataProfile = (data: any) => {
+        Object.assign(dataProfile, { ...data });
+        _setData({ ...dataProfile });
+    };
+
+    const isValidData = () => {
+        let allRequestOK = true;
+
+        setValidate({ ...validate });
+
+        Object.values(validate).forEach((it: any) => {
+            if (it.isError === true) {
+                allRequestOK = false;
+            }
+        });
+        return allRequestOK;
+    };
+    const dataProfileState = useRecoilValue(ProfileState);
+
+    useEffect(() => {
+        if (dataProfileState) {
+            setDataProfile({
+                confirmName: dataProfileState.user.name,
+                phoneNumber: dataProfileState.contactNumber,
+                confirmVehicleNumber: dataProfileState.vehicleNumber,
+            });
+        }
+    }, [dataProfileState]);
+
 
     const disabledDate = (current: any) => {
         return current && current <= moment().startOf('day');
@@ -60,7 +109,7 @@ const DetailParkingPage = () => {
         const params = {
             id: param.id,
             startTimestamp: convertDate(startDate),
-            durationInMinutes: duration
+            durationInMinutes: duration,
         }
         try {
             await parkingLotService.getParkingLotReservations(
@@ -76,28 +125,37 @@ const DetailParkingPage = () => {
     }
 
     const onReservationsAsync = async () => {
-        const data = {
-            parkingSlot: {
-                id: idSelected
-            },
-            startTimestamp: convertDateBooking(startDate),
-            durationInMinutes: duration
-        }
-        try {
-            await parkingLotService.addParkingLotReservations(
-                data,
-                () => {
-                    onCloseModalReveration();
-                    onGetParkingReservationsByIdAsync();
+        await setSubmittedTime(Date.now());
+        if (isValidData()) {
+            const data = {
+                parkingSlot: {
+                    id: idSelected
                 },
-                setLoading
-            ).then((res) => {
-                setDataAvailabel(res)
-            })
+                startTimestamp: convertDateBooking(startDate),
+                durationInMinutes: duration,
+                confirmName: dataProfile.confirmName,
+                phoneNumber: dataProfile.phoneNumber,
+                confirmVehicleNumber: dataProfile.confirmVehicleNumber,
+            }
+            try {
+                await parkingLotService.addParkingLotReservations(
+                    data,
+                    () => {
+                        onCloseModalReveration();
+                        onGetParkingReservationsByIdAsync();
+                    },
+                    setLoading
+                ).then((res) => {
+                    setDataAvailabel(res)
+                })
+            }
+            catch (error) {
+                console.error(error)
+            }
         }
-        catch (error) {
-            console.error(error)
-        }
+        else {
+            WarningMessage("Nhập thiếu thông tin", "Vui lòng nhập đầy đủ thông tin")
+        };
     }
 
     const onOpenModalReveration = (id: number) => {
@@ -313,14 +371,17 @@ const DetailParkingPage = () => {
                     }
                 </div>
             </div>
-            <DialogConfirmCommon
-                message={`Bạn có muốn đặt chỗ này vào ngày ${convertDate(startDate)} với khoảng thời gian ${duration} phút`}
-                titleCancel={"Bỏ qua"}
-                titleOk={"Đồng ý"}
-                visible={isReverationModal}
-                handleCancel={onCloseModalReveration}
+            <ModalInforReservation
+                message={`Bạn có muốn đặt chỗ này vào ngày ${convertDateShow(startDate)} với khoảng thời gian ${duration} phút`}
                 handleOk={onReservationsAsync}
-                title={"Đặt chỗ đỗ xe"}
+                handleCancel={onCloseModalReveration}
+                visible={isReverationModal}
+                isLoading={loading}
+                dataProfile={dataProfile}
+                setDataProfile={setDataProfile}
+                validate={validate}
+                setValidate={setValidate}
+                submittedTime={submittedTime}
             />
             <FullPageLoading isLoading={loading} />
         </LayoutClient>

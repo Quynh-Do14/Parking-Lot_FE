@@ -5,6 +5,8 @@ import moment from 'moment';
 import { MessageError } from '../controls/MessageError';
 import { validateFields } from '../../../helper/helper';
 import dayjs from 'dayjs';
+import { useRecoilValue } from 'recoil';
+import { ProfileState } from '../../../../core/atoms/profile/profileState';
 type Props = {
     label: string,
     attribute: string,
@@ -15,11 +17,10 @@ type Props = {
     validate: any,
     setValidate: Function,
     submittedTime: any,
-    disabledToDate: any,
     showTime?: boolean,
     showHour?: boolean,
 }
-const InputDateCommon = (props: Props) => {
+const InputDateRegularPassCommon = (props: Props) => {
     const {
         label,
         attribute,
@@ -30,21 +31,24 @@ const InputDateCommon = (props: Props) => {
         disabled = false,
         dataAttribute,
         submittedTime,
-        disabledToDate = null,
         showTime = false,
         showHour = false,
     } = props;
     const [value, setValue] = useState("");
+    const profileState = useRecoilValue(ProfileState);
+
 
     const disabledDate = (current: any) => {
-        if (disabledToDate == true) {
-            return current && current < moment().startOf('day');
-        }
-        else if (disabledToDate == false) {
-            return current && current >= moment().startOf('day');
+        if (profileState?.regularPass) {
+            if (moment(new Date(profileState?.regularPass?.endDate)) > moment().startOf('day')) {
+                return moment(new Date(profileState?.regularPass?.startDate)) > current || current > moment(new Date(profileState?.regularPass?.endDate));
+            }
+            else {
+                return current && current < moment().startOf('day');
+            }
         }
         else {
-            return
+            return current && current < moment().startOf('day');
         }
     };
 
@@ -93,7 +97,6 @@ const InputDateCommon = (props: Props) => {
                     disabledDate={disabledDate}
                     disabled={disabled}
                     format={`${showHour ? "DD/MM/YYYY hh:mm:ss" : "DD/MM/YYYY"}`}
-                    onBlur={() => onBlur(false)}
                     showTime={showTime}
                 />
 
@@ -103,4 +106,4 @@ const InputDateCommon = (props: Props) => {
     );
 
 };
-export default InputDateCommon;
+export default InputDateRegularPassCommon;

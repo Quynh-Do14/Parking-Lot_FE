@@ -2,10 +2,10 @@ const PREFIX = "";
 
 export const ROUTE_PATH = {
 
-    LOGIN: `${PREFIX}/login`,
+    LOGIN: `${PREFIX}/`,
     REGISTER: `${PREFIX}/register`,
     ///Client
-    HOMEPAGE: `${PREFIX}/`,
+    // HOMEPAGE: `${PREFIX}/`,
     PARKING_LOT_CLIENT: `${PREFIX}/parking-lot-client`,
 
     VIEW_PARKING_LOT_CLIENT: `${PREFIX}/parking-lot-client/view/:id`,

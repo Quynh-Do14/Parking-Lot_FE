@@ -13,6 +13,7 @@ import { useRecoilState } from 'recoil';
 import { ProfileState } from '../../../core/atoms/profile/profileState';
 import ProfileModal from './Profile';
 import ChangePasswordModal from '../components/toast/changePassword';
+import ModalHistory from '../components/modal/modalHistory';
 const HeaderClient = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -20,6 +21,7 @@ const HeaderClient = () => {
     const [isOpenModalLogout, setIsOpenModalLogout] = useState<boolean>(false);
     const [isOpenModalProfile, setIsOpenModalProfile] = useState<boolean>(false);
     const [isOpenModalChangePassword, setIsOpenModalChangePassword] = useState<boolean>(false);
+    const [isOpenModalHistoryShow, setIsOpenModalHistoryShow] = useState<boolean>(false);
 
     const [loading, setLoading] = useState<boolean>(false);
     const [isAdmin, setIsAdmin] = useState<boolean>(false)
@@ -34,7 +36,10 @@ const HeaderClient = () => {
                     setDataProfile(response?.customer?.user)
                     setProfileState(
                         {
-                            data: response?.customer?.user
+                            user: response?.customer?.user,
+                            contactNumber: response?.customer?.contactNumber,
+                            vehicleNumber: response?.customer?.vehicleNumber,
+                            regularPass: response?.regularPass
                         }
                     )
                 }
@@ -92,6 +97,13 @@ const HeaderClient = () => {
     const onCloseModalChangePassword = () => {
         setIsOpenModalChangePassword(false);
     };
+    const openModalHistoryShow = () => {
+        setIsOpenModalHistoryShow(true);
+    };
+
+    const onCloseModalHistoryShow = () => {
+        setIsOpenModalHistoryShow(false);
+    };
 
     const listAction = () => {
         return (
@@ -117,6 +129,15 @@ const HeaderClient = () => {
                             <path d="M12 9a9 9 0 0 1 9 9H3a9 9 0 0 1 9-9z" />
                         </svg>
                         Thông tin cá nhân
+                    </div>
+                </Menu.Item>
+                <Menu.Item className='info-admin' onClick={openModalHistoryShow}>
+                    <div className='info-admin-title px-1 py-2 flex items-center hover:text-[#5e5eff]'>
+                        <svg className='mr-1' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="5" r="4" />
+                            <path d="M12 9a9 9 0 0 1 9 9H3a9 9 0 0 1 9-9z" />
+                        </svg>
+                        Lịch sử đặt
                     </div>
                 </Menu.Item>
                 <Menu.Item className='info-admin' onClick={openModalChangePassword}>
@@ -152,7 +173,7 @@ const HeaderClient = () => {
         <div className="header-common px-3">
             <Row justify="space-between">
                 <div className="flex gap-4">
-                    <div onClick={() => navigate(ROUTE_PATH.HOMEPAGE)} className="flex gap-4 m-auto cursor-pointer" >
+                    <div onClick={() => navigate(ROUTE_PATH.PARKING_LOT_CLIENT)} className="flex gap-4 m-auto cursor-pointer" >
                         <img src={car} alt="" />
                         <div className="text-xl m-auto font-bold uppercase whitespace-nowrap">Quản lý đỗ xe</div>
                     </div>
@@ -160,7 +181,7 @@ const HeaderClient = () => {
                         <ul className="gap-3 flex m-auto">
                             {Constants.MenuClient.List.map((item: any, index: number) => {
                                 return (
-                                    <li key={index} className={`cursor-pointer text-[15px] font-semibold capitalize ${location.pathname == (item.link) ? "active" : ""} `} onClick={() => navigate(item.link)} >
+                                    <li key={index} className={`cursor-pointer text-[15px] font-semibold capitalize ${location.pathname.includes(item.link) ? "active" : ""} `} onClick={() => navigate(item.link)} >
                                         <div >
                                             {item.label}
 
@@ -222,6 +243,11 @@ const HeaderClient = () => {
             <ChangePasswordModal
                 handleCancel={onCloseModalChangePassword}
                 visible={isOpenModalChangePassword}
+                isLoading={loading}
+            />
+            <ModalHistory
+                handleCancel={onCloseModalHistoryShow}
+                visible={isOpenModalHistoryShow}
                 isLoading={loading}
             />
         </div>

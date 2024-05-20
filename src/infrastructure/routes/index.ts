@@ -37,7 +37,7 @@ export const privateRoutes = [
     //     private: false,
     // },
     {
-        path: ROUTE_PATH.HOMEPAGE,
+        path: ROUTE_PATH.PARKING_LOT_CLIENT,
         component: ListParkingPage,
         private: false,
     },

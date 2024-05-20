@@ -42,7 +42,7 @@ const LoginPage = () => {
     const storage = isTokenStoraged()
     useEffect(() => {
         if (storage) {
-            navigate(ROUTE_PATH.HOMEPAGE);
+            navigate(ROUTE_PATH.PARKING_LOT_CLIENT);
         };
     }, [])
 
@@ -58,7 +58,7 @@ const LoginPage = () => {
                     setLoading
                 ).then((response) => {
                     if (response) {
-                        navigate(ROUTE_PATH.HOMEPAGE)
+                        navigate(ROUTE_PATH.PARKING_LOT_CLIENT)
                     }
                 });
             } catch (error) {
