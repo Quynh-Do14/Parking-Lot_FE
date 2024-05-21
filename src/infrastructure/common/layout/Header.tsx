@@ -169,7 +169,7 @@ const HeaderClient = () => {
     };
 
     return (
-        <div className="header-common px-3">
+        <div className="header-common px-3 z-10">
             <Row justify="space-between">
                 <div className="flex gap-4">
                     <div onClick={() => navigate(ROUTE_PATH.PARKING_LOT_CLIENT)} className="flex gap-4 m-auto cursor-pointer" >

@@ -5,8 +5,10 @@ const LayoutClient = ({ ...props }: any) => {
     return (
         <div className="main-layout-client">
             <HeaderClient />
-            <div className="content-layout-client flex flex-col scroll-auto">
-                {props.children}
+            <div className="content-layout-client">
+                <div className="overlay"></div>
+                <div className=" flex flex-col scroll-auto z-10">{props.children}</div>
+
             </div>
         </div>
 
