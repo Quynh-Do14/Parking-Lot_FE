@@ -129,7 +129,7 @@ const ModalInforReservation = (props: Props) => {
                                     onClick={handleOk}
                                     classColor="orange"
                                     icon={null}
-                                    title={'Cập nhật'}
+                                    title={'Thanh toán'}
                                 />
                             </Col>
                         </Row>

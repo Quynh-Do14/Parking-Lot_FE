@@ -111,7 +111,7 @@ const ListParkingPage = () => {
                                 </div>
                                 <Select
                                     showSearch
-                                    allowClear={false}
+                                    allowClear={true}
                                     showArrow
                                     value={selectAddress}
                                     listHeight={120}

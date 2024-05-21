@@ -87,7 +87,7 @@ class AuthService {
                 ...data
             }).then(response => {
                 setLoading(false)
-                SuccessMessage("Đăng kí thành công", "Hãy xác thực Email để tham gia thi")
+                SuccessMessage("Đăng kí thành công", "")
                 return response;
             });
         } catch (error: any) {
