@@ -51,6 +51,17 @@ export default class Constants {
         static parentId = "parentId"
     }
 
+    static PaginationClientConfigs = class {
+        static Size = 6;
+        static LimitSize = 60;
+        static AllSize = 9000;
+        static PageSizeList = [
+            { label: "6", value: 6 },
+            { label: "12", value: 12 },
+            { label: "48", value: 48 },
+        ]
+    };
+
     static PaginationConfigs = class {
         static Size = 10;
         static SizeSearchPage = 8;

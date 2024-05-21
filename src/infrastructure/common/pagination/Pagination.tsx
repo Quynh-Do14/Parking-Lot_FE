@@ -8,16 +8,21 @@ type Props = {
     pageSize: number,
     onChangeSize: any,
     disabled: boolean,
+    isClient?: boolean,
 }
 export const PaginationCommon = (props: Props) => {
     const {
         total,
         currentPage = 1,
         onChangePage,
-        pageSize = Constants.PaginationConfigs.Size,
+        pageSize,
         onChangeSize,
         disabled = false,
+        isClient = false,
     } = props
+
+    const dataPagination: any[] = isClient ? Constants.PaginationClientConfigs.PageSizeList : Constants.PaginationConfigs.PageSizeList;
+
     return (
         <div className="w-full flex justify-between pt-4 pb-2 gap-2 container-pagination">
             <Pagination current={currentPage} total={total} showSizeChanger={false} pageSize={pageSize} onChange={onChangePage} />
@@ -33,7 +38,7 @@ export const PaginationCommon = (props: Props) => {
                         getPopupContainer={(trigger) => trigger.parentNode}
                     >
                         {
-                            Constants.PaginationConfigs.PageSizeList.map((item, index) => {
+                            dataPagination.length && dataPagination.map((item, index) => {
                                 return (
                                     <Select.Option
                                         key={index}

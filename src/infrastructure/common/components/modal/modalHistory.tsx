@@ -6,6 +6,7 @@ import { convertDateShow, formatCurrencyVND } from '../../../helper/helper';
 import { PaginationCommon } from '../../pagination/Pagination';
 import { ButtonCommon } from '../button/button-common';
 import DialogConfirmCommon from './dialogConfirm';
+import Constants from '../../../../core/common/constants';
 type Props = {
     handleCancel: Function,
     visible: boolean,
@@ -18,7 +19,7 @@ const ModalHistory = (props: Props) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [total, setTotal] = useState<number>(0)
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const [pageSize, setPageSize] = useState<number>(10);
+    const [pageSize, setPageSize] = useState<number>(Constants.PaginationClientConfigs.Size);
     const [isDeleteModal, setIsDeleteModal] = useState<boolean>(false);
     const [idSelected, setIdSelected] = useState(null);
 
@@ -120,7 +121,7 @@ const ModalHistory = (props: Props) => {
                                         <div>Khu: {it.parkingSlot.block.blockCode} - {it.parkingSlot.slotNumber} </div>
                                         <div>Giá vé: {formatCurrencyVND(String(it.cost))}</div>
                                         <div>Ngày đặt: {convertDateShow(it.bookingDate)} </div>
-                                        
+
                                     </div>
                                 </Col>
                                 <Col xs={24} sm={24} md={10} className='flex flex-col gap-2 bg-[#ffffff] border-2 border-[#c4c4c4] '>
@@ -158,6 +159,7 @@ const ModalHistory = (props: Props) => {
                     pageSize={pageSize}
                     onChangeSize={onPageSizeChanged}
                     disabled={false}
+                    isClient={true}
                 />
             </div>
             <DialogConfirmCommon
