@@ -212,7 +212,7 @@ const DetailParkingPage = () => {
         return stars
     }
     useEffect(() => {
-        if (dataAvailable.length) {
+        if (dataAvailable && dataAvailable.length) {
             dataAvailable.sort((a, b) => {
                 return Number(a.block.id) - Number(b.block.id)
             })
@@ -239,8 +239,11 @@ const DetailParkingPage = () => {
                                     onChange={onChangeDate}
                                     disabledDate={disabledDate}
                                     // showTime={{ disabledTime: disabledDateTime }}
-                                    format={"DD/MM/YYYY hh:mm:ss"}
-                                    showTime={true}
+                                    format={"DD/MM/YYYY hh:mm:ss A"}
+                                    showTime={{
+                                        format: 'hh:mm:ss A', // Định dạng 12 giờ cho TimePicker
+                                        use12Hours: true, // Đảm bảo rằng TimePicker sử dụng định dạng 12 giờ
+                                    }}
                                 />
                             </div>
                         </Col>
@@ -272,7 +275,7 @@ const DetailParkingPage = () => {
                         ?
                         dataAvailable && dataAvailable.length
                             ?
-                            dataAvailable.map((it, index) => {
+                            dataAvailable && dataAvailable.map((it, index) => {
                                 return (
                                     <div key={index} className='bg-[#fffffff3] border-2 p-6 rounded-[8px]'>
                                         <p className='font-semibold text-[20px] text-[#1e1e1e] mb-3'>{it.block.blockCode} - {it.block.numberOfParkingSlots} chỗ</p>
