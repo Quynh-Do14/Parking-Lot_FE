@@ -141,7 +141,7 @@ const RegisterPage = () => {
                                     </div>
                                 </Col>
                             </Row>
-                            <button onKeyPress={onLogin} className='w-full cursor-pointer' onClick={onLogin}>Đăng nhập</button>
+                            <button onKeyPress={onLogin} className='w-full cursor-pointer' onClick={onLogin}>Đăng ký</button>
                         </div>
                     </div>
                 </div>
