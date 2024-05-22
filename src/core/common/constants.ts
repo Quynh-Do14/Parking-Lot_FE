@@ -37,6 +37,10 @@ export default class Constants {
                 label: "Đặt vé tháng",
                 link: ROUTE_PATH.REGULAR_PASS,
             },
+            {
+                label: "Quy định đỗ xe",
+                link: ROUTE_PATH.PARKING_REGULATIONS,
+            },
         ]
     };
     static TOKEN = "token";

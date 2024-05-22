@@ -1,6 +1,5 @@
 import { ROUTE_PATH } from "../../core/common/appRouter";
 import LoginPage from "../../pages/Auth/Login";
-import HomePage from "../../pages/Client/homepage";
 import DetailParkingPage from "../../pages/Client/homepage/detail";
 import ListParkingPage from "../../pages/Client/homepage/list";
 import AddParkingLotManagement from "../../pages/Manage/parking-lot-management/add";
@@ -16,6 +15,7 @@ import ListParkingReservationManagement from "../../pages/Manage/parking-reserva
 import ViewParkingReservationManagement from "../../pages/Manage/parking-reservation-management/view";
 import ListRegularPassManagement from "../../pages/Manage/regular-pass/list";
 import ViewRegularPassManagement from "../../pages/Manage/regular-pass/view";
+import ParkingRegulation from "../../pages/Client/ParkingRegulations";
 
 export const privateRoutes = [
 
@@ -49,6 +49,11 @@ export const privateRoutes = [
     {
         path: ROUTE_PATH.REGULAR_PASS,
         component: RegularPass,
+        private: false,
+    },
+    {
+        path: ROUTE_PATH.PARKING_REGULATIONS,
+        component: ParkingRegulation,
         private: false,
     },
     ///Management

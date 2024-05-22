@@ -11,6 +11,9 @@ export const ROUTE_PATH = {
     VIEW_PARKING_LOT_CLIENT: `${PREFIX}/parking-lot-client/view/:id`,
 
     REGULAR_PASS: `${PREFIX}/regular-pass`,
+
+    PARKING_REGULATIONS: `${PREFIX}/parking-regulations`,
+
     ///Management
     MAINLAYOUT: `${PREFIX}/main-layout`,
 
