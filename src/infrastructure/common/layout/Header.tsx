@@ -75,7 +75,7 @@ const HeaderClient = () => {
         }
     }
     useEffect(() => {
-        dataProfile.roles?.map((it: any) => {
+        dataProfile?.roles?.map((it: any) => {
             if (it.name == "ADMIN") {
                 setIsAdmin(true)
             }
