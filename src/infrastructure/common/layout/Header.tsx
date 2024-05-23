@@ -131,6 +131,15 @@ const HeaderClient = () => {
                         Thông tin cá nhân
                     </div>
                 </Menu.Item>
+                <Menu.Item className='info-admin' onClick={openModalProfile}>
+                    <div className='info-admin-title px-1 py-2 flex items-center hover:text-[#5e5eff]'>
+                        <svg className='mr-1' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="5" r="4" />
+                            <path d="M12 9a9 9 0 0 1 9 9H3a9 9 0 0 1 9-9z" />
+                        </svg>
+                        Thông tin đặt chỗ
+                    </div>
+                </Menu.Item>
                 <Menu.Item className='info-admin' onClick={openModalHistoryShow}>
                     <div className='info-admin-title px-1 py-2 flex items-center hover:text-[#5e5eff]'>
                         <svg className='mr-1' width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

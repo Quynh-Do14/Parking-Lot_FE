@@ -24,6 +24,8 @@ const DetailParkingPage = () => {
     const [detailParking, setDetailParking] = useState<any>({});
     const [suggestions, setSuggestions] = useState<Array<any>>([]);
     const [startDate, setStartDate] = useState<string>("");
+    const [startDateSearch, setStartDateSearch] = useState<string>("");
+
     const [duration, setDuration] = useState<number>(0);
     const [dataAvailable, setDataAvailabel] = useState<Array<any>>([])
     const [idSelected, setIdSelected] = useState<number>(0);
@@ -61,8 +63,8 @@ const DetailParkingPage = () => {
         return allRequestOK;
     };
     const dataProfileState = useRecoilValue(ProfileState);
-    console.log("startDate",startDate);
-    
+    console.log("startDate", startDate);
+
     useEffect(() => {
         if (dataProfileState) {
             setDataProfile({
@@ -77,29 +79,12 @@ const DetailParkingPage = () => {
     const disabledDate = (current: any) => {
         return current && current < moment().startOf('day');
     };
-    // const disabledDateTime = () => {
-    //     const current = moment();
-    //     const disableHours: any[] = [];
-    //     const disableMinutes: any[] = [];
-
-    //     for (let i = 0; i < current.hour(); i++) {
-    //         disableHours.push(i);
-    //     }
-
-    //     if (current.isSame(moment(), 'hour')) {
-    //         for (let i = 0; i < current.minute(); i++) {
-    //             disableMinutes.push(i);
-    //         }
-    //     }
-    //     return {
-    //         disabledHours: () => disableHours,
-    //         disabledMinutes: () => disableMinutes,
-    //     };
-    // };
 
     const onChangeDate = (date: any,) => {
         const formattedValue = date.format('YYYY-MM-DDTHH:mm:ss');
-        setStartDate(formattedValue)
+        setStartDate(formattedValue);
+        const formattedValueSearch = date.format('YYYY-MM-DD HH:mm:ss');
+        setStartDateSearch(formattedValueSearch);
     }
 
     const onChangeDuration = (value: any) => {
@@ -129,7 +114,7 @@ const DetailParkingPage = () => {
     const onGetParkingReservationsByIdAsync = async () => {
         const params = {
             id: param.id,
-            startTimestamp: convertDate(startDate),
+            startTimestamp: startDateSearch,
             durationInMinutes: duration,
         }
         try {
