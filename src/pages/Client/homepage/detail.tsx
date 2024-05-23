@@ -61,7 +61,8 @@ const DetailParkingPage = () => {
         return allRequestOK;
     };
     const dataProfileState = useRecoilValue(ProfileState);
-
+    console.log("startDate",startDate);
+    
     useEffect(() => {
         if (dataProfileState) {
             setDataProfile({
@@ -97,7 +98,8 @@ const DetailParkingPage = () => {
     // };
 
     const onChangeDate = (date: any,) => {
-        setStartDate(date)
+        const formattedValue = date.format('YYYY-MM-DDTHH:mm:ss');
+        setStartDate(formattedValue)
     }
 
     const onChangeDuration = (value: any) => {
@@ -150,7 +152,7 @@ const DetailParkingPage = () => {
                 parkingSlot: {
                     id: idSelected
                 },
-                startTimestamp: convertDateBooking(startDate),
+                startTimestamp: (startDate),
                 durationInMinutes: duration,
                 confirmName: dataProfile.confirmName,
                 phoneNumber: dataProfile.phoneNumber,
@@ -234,14 +236,13 @@ const DetailParkingPage = () => {
                                     allowClear={false}
                                     size="middle"
                                     className='w-full input-date-common'
-                                    value={startDate}
                                     placeholder={`Chọn ngày đặt chỗ`}
                                     onChange={onChangeDate}
                                     disabledDate={disabledDate}
                                     // showTime={{ disabledTime: disabledDateTime }}
                                     format={"DD/MM/YYYY hh:mm:ss A"}
                                     showTime={{
-                                        format: 'hh:mm:ss A', // Định dạng 12 giờ cho TimePicker
+                                        format: 'hh:mm A', // Định dạng 12 giờ cho TimePicker
                                         use12Hours: true, // Đảm bảo rằng TimePicker sử dụng định dạng 12 giờ
                                     }}
                                 />
