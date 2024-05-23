@@ -67,10 +67,10 @@ const ViewCustomerManagement = () => {
     useEffect(() => {
         if (detailCustomer) {
             setDataCustomer({
-                avatar: detailCustomer.avatar,
-                name: detailCustomer.name,
-                email: detailCustomer.email,
-                username: detailCustomer.username,
+                avatar: detailCustomer.user.avatar,
+                name: detailCustomer.user.name,
+                email: detailCustomer.user.email,
+                username: detailCustomer.user.username,
             });
         }
         if (detailCustomer) {

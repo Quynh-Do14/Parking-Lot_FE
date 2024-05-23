@@ -28,7 +28,7 @@ class CustomerService {
         setLoading(true)
         try {
             return await RequestService
-                .get(`${Endpoint.Customer.Get}/${id}`)
+                .get(`${Endpoint.Customer.GetById}/${id}`)
                 .then(response => {
                     if (response) {
                         return response

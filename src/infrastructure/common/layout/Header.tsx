@@ -209,7 +209,7 @@ const HeaderClient = () => {
                                 <Dropdown overlay={listAction} trigger={['click']}>
                                     <a onClick={(e) => e.preventDefault()}>
                                         <Space>
-                                            <img className='rounded-full cursor-pointer' width={50} height={50} src={dataProfile.avatar ? dataProfile.avatar : profile} alt='' />
+                                            <img className='rounded-full cursor-pointer' width={50} height={50} src={dataProfile?.avatar ? dataProfile?.avatar : profile} alt='' />
                                         </Space>
                                     </a>
                                 </Dropdown>

@@ -27,6 +27,7 @@ export class Endpoint {
     }
     static Customer = class {
         static Get = "/customers/admin"
+        static GetById = "/customers"
         static Add = "/customers/add"
         static Update = "/customers/update"
         static Delete = "/customers/delete"
