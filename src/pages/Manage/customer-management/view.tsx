@@ -67,10 +67,10 @@ const ViewCustomerManagement = () => {
     useEffect(() => {
         if (detailCustomer) {
             setDataCustomer({
-                avatar: detailCustomer.user.avatar,
-                name: detailCustomer.user.name,
-                email: detailCustomer.user.email,
-                username: detailCustomer.user.username,
+                avatar: detailCustomer.user?.avatar,
+                name: detailCustomer.user?.name,
+                email: detailCustomer.user?.email,
+                username: detailCustomer.user?.username,
             });
         }
         if (detailCustomer) {
@@ -87,7 +87,10 @@ const ViewCustomerManagement = () => {
             await customerService.updateCustomer(
                 Number(param.id),
                 {
+                    avatar: dataCustomer.avatar,
+                    email: dataCustomer.email,
                     name: dataCustomer.name,
+                    username: dataCustomer.username,
                     contactNumber: dataCustomer.contactNumber,
                     vehicleNumber: dataCustomer.vehicleNumber,
                 },
@@ -125,7 +128,7 @@ const ViewCustomerManagement = () => {
                                         isRequired={true}
                                         dataAttribute={dataCustomer.username}
                                         setData={setDataCustomer}
-                                        disabled={false}
+                                        disabled={true}
                                         validate={validate}
                                         setValidate={setValidate}
                                         submittedTime={submittedTime}
@@ -138,7 +141,7 @@ const ViewCustomerManagement = () => {
                                         isRequired={true}
                                         dataAttribute={dataCustomer.email}
                                         setData={setDataCustomer}
-                                        disabled={false}
+                                        disabled={true}
                                         validate={validate}
                                         setValidate={setValidate}
                                         submittedTime={submittedTime}

@@ -23,6 +23,9 @@ export const messageConfig = (message: string) => {
             return `Mật khẩu xác nhận không chính xác`;
         case "Cannot delete booking > 1 hour":
             return `Đã quá thời gian hủy đặt chỗ (Chỉ có thể hủy trong vòng 1 tiếng sau khi đặt)`
+        case "Time in future":
+            return `Thời gian đặt không thể nhỏ hơn thời gian hiện tại.
+                    Vui lòng chọn lại thời gian `
         default:
             return "Đã có lỗi xảy ra"
     }

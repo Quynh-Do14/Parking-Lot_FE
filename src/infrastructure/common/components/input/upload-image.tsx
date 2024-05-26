@@ -1,6 +1,7 @@
 import { Upload } from 'antd';
 import { useEffect, useRef } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
+import LazyLoad from 'react-lazyload';
 
 type Props = {
     attributeImg: any,
@@ -29,6 +30,7 @@ function UploadImage(props: Props) {
         setImageUrl(attributeImg)
     }, [attributeImg])
     console.log("imageUrl", imageUrl);
+
     return (
         <div className="mb-[1rem] relative upload-common">
             <label
@@ -54,9 +56,10 @@ function UploadImage(props: Props) {
                 onChange={handleChange}
                 id='upload'
             >
-
                 {imageUrl ? (
-                    <img src={imageUrl} alt="avatar" className="w-full h-full rounded-full" />
+                    <LazyLoad height={200} offset={100} once>
+                        <img src={imageUrl} alt="avatar" className="w-full h-full rounded-full" />
+                    </LazyLoad>
                 ) : (
                     <div ref={inputRef}>
                         <PlusOutlined />

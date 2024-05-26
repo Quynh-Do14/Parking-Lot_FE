@@ -14,19 +14,26 @@ import { ProfileState } from '../../../core/atoms/profile/profileState';
 import ProfileModal from './Profile';
 import ChangePasswordModal from '../components/toast/changePassword';
 import ModalHistory from '../components/modal/modalHistory';
+import ModalReservationShow from '../components/modal/modalReservationShow';
+import { AvatarState } from '../../../core/atoms/avatar/avatarState';
+import { arrayBufferToBase64 } from '../../helper/helper';
 const HeaderClient = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [dataProfile, setDataProfile] = useState<any>({});
+    const [imageUrl, setImageUrl] = useState<any>(null);
     const [isOpenModalLogout, setIsOpenModalLogout] = useState<boolean>(false);
     const [isOpenModalProfile, setIsOpenModalProfile] = useState<boolean>(false);
     const [isOpenModalChangePassword, setIsOpenModalChangePassword] = useState<boolean>(false);
     const [isOpenModalHistoryShow, setIsOpenModalHistoryShow] = useState<boolean>(false);
+    const [isOpenModalReservationShow, setIsOpenModalReservationShow] = useState<boolean>(false);
 
     const [loading, setLoading] = useState<boolean>(false);
     const [isAdmin, setIsAdmin] = useState<boolean>(false)
 
     const [, setProfileState] = useRecoilState(ProfileState);
+    const [, setAvatarState] = useRecoilState(AvatarState);
+
     const getProfileUser = async () => {
         try {
             await authService.profile(
@@ -52,6 +59,27 @@ const HeaderClient = () => {
         getProfileUser().then(() => { })
     }, [])
 
+    const onGetUserAvatarsync = async () => {
+        try {
+            await authService.getAvatar(
+                setLoading
+            ).then((response) => {
+                const base64String = arrayBufferToBase64(response);
+                const imageSrc = `data:image/jpeg;base64,${base64String}`;
+                setImageUrl(imageSrc)
+                setAvatarState({ data: imageSrc })
+                // setDetailState({
+
+                // })
+            })
+        }
+        catch (error) {
+            console.error(error)
+        }
+    }
+    useEffect(() => {
+        onGetUserAvatarsync().then(() => { })
+    }, [])
 
     const openModalLogout = () => {
         setIsOpenModalLogout(true);
@@ -105,6 +133,14 @@ const HeaderClient = () => {
         setIsOpenModalHistoryShow(false);
     };
 
+    const openModalReservationShow = () => {
+        setIsOpenModalReservationShow(true);
+    };
+
+    const onCloseModalReservationShow = () => {
+        setIsOpenModalReservationShow(false);
+    };
+
     const listAction = () => {
         return (
             <Menu className='action-admin'>
@@ -131,11 +167,11 @@ const HeaderClient = () => {
                         Thông tin cá nhân
                     </div>
                 </Menu.Item>
-                <Menu.Item className='info-admin' onClick={openModalProfile}>
+                <Menu.Item className='info-admin' onClick={openModalReservationShow}>
                     <div className='info-admin-title px-1 py-2 flex items-center hover:text-[#5e5eff]'>
-                        <svg className='mr-1' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="5" r="4" />
-                            <path d="M12 9a9 9 0 0 1 9 9H3a9 9 0 0 1 9-9z" />
+                        <svg className='mr-1' width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M11 6C9.34315 6 8 7.34315 8 9V17C8 17.5523 8.44772 18 9 18C9.55229 18 10 17.5523 10 17V14L12.0045 14C12.2149 13.9987 12.426 13.974 12.6332 13.9395C12.9799 13.8817 13.4575 13.7642 13.9472 13.5194C14.4409 13.2725 14.9649 12.8866 15.3633 12.289C15.7659 11.6851 16 10.9249 16 9.99996C16 9.07499 15.7659 8.31478 15.3633 7.71092C14.9649 7.11332 14.4408 6.7274 13.9472 6.48058C13.4575 6.23573 12.9799 6.11828 12.6332 6.06049C12.4248 6.02575 12.2117 6.0001 12 6H11ZM10 12V9C10 8.44772 10.4477 8 11 8L12.0004 8.00018C12.3603 8.01218 12.7318 8.10893 13.0528 8.26944C13.3092 8.39762 13.5351 8.5742 13.6992 8.82033C13.8591 9.06021 14 9.42497 14 9.99996C14 10.575 13.8591 10.9397 13.6992 11.1796C13.5351 11.4258 13.3091 11.6023 13.0528 11.7305C12.7318 11.891 12.3603 11.9878 12.0003 11.9998L10 12Z" fill="#808080" />
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M20 1C21.6569 1 23 2.34315 23 4V20C23 21.6569 21.6569 23 20 23H4C2.34315 23 1 21.6569 1 20V4C1 2.34315 2.34315 1 4 1H20ZM20 3C20.5523 3 21 3.44772 21 4V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V4C3 3.44772 3.44772 3 4 3H20Z" fill="#808080" />
                         </svg>
                         Thông tin đặt chỗ
                     </div>
@@ -218,7 +254,7 @@ const HeaderClient = () => {
                                 <Dropdown overlay={listAction} trigger={['click']}>
                                     <a onClick={(e) => e.preventDefault()}>
                                         <Space>
-                                            <img className='rounded-full cursor-pointer' width={50} height={50} src={dataProfile?.avatar ? dataProfile?.avatar : profile} alt='' />
+                                            <img className='rounded-full cursor-pointer' width={50} height={50} src={imageUrl ? imageUrl : profile} alt='' />
                                         </Space>
                                     </a>
                                 </Dropdown>
@@ -251,6 +287,11 @@ const HeaderClient = () => {
             <ChangePasswordModal
                 handleCancel={onCloseModalChangePassword}
                 visible={isOpenModalChangePassword}
+                isLoading={loading}
+            />
+            <ModalReservationShow
+                handleCancel={onCloseModalReservationShow}
+                visible={isOpenModalReservationShow}
                 isLoading={loading}
             />
             <ModalHistory

@@ -163,8 +163,8 @@ class ParkingLotService {
                     setLoading(false)
                     return response;
                 });
-        } catch (error) {
-            FailMessage("Đặt chỗ không thành công", "Vui lòng kiểm tra thông tin")
+        } catch (error: any) {
+            FailMessage("Đặt chỗ không thành công", messageConfig(error.response.data.message))
             console.error(error)
         } finally {
             setLoading(false);
@@ -235,6 +235,26 @@ class ParkingLotService {
         try {
             return await RequestService
                 .get(Endpoint.ParkingLot.GetReservationShow,
+                    { ...params }
+                )
+                .then(response => {
+                    if (response) {
+                        return response
+                    }
+                    setLoading(false)
+                    return response;
+                });
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setLoading(false);
+        }
+    };
+    async getBookingHistory(params: object, setLoading: Function) {
+        setLoading(true)
+        try {
+            return await RequestService
+                .get(Endpoint.ParkingLot.BookingHistories,
                     { ...params }
                 )
                 .then(response => {

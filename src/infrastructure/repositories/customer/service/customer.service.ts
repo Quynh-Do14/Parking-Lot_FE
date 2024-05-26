@@ -28,7 +28,7 @@ class CustomerService {
         setLoading(true)
         try {
             return await RequestService
-                .get(`${Endpoint.Customer.GetById}/${id}`)
+                .get(`${Endpoint.Customer.Get}/${id}`)
                 .then(response => {
                     if (response) {
                         return response
@@ -69,7 +69,7 @@ class CustomerService {
         setLoading(true)
         try {
             return await RequestService
-                .putForm(`${Endpoint.Customer.Update}/${id}`,
+                .put(`${Endpoint.Customer.Update}/${id}`,
                     data
                 )
                 .then(response => {

@@ -57,11 +57,27 @@ class AuthService {
         }
     }
 
+    async getAvatar(setLoading: Function) {
+        setLoading(true)
+
+        try {
+            return await RequestService.
+                getFile(Endpoint.Auth.Avatar).then(response => {
+                    return response;
+                });
+        }
+        catch (error) {
+            console.error(error)
+        } finally {
+            setLoading(false);
+        }
+    }
+
     async updateProfile(data: any, onBack: Function, setLoading: Function) {
         setLoading(true)
         try {
             return await RequestService
-                .put(Endpoint.Auth.ProfileUpdate, {
+                .putForm(Endpoint.Auth.ProfileUpdate, {
                     ...data
                 })
                 .then(response => {

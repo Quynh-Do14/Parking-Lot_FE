@@ -12,7 +12,7 @@ type Props = {
     visible: boolean,
     isLoading?: boolean,
 }
-const ModalHistory = (props: Props) => {
+const ModalReservationShow = (props: Props) => {
     const { handleCancel, visible, isLoading = false } = props;
 
     const [historyShow, setHistoryShow] = useState<Array<any>>([]);
@@ -23,13 +23,13 @@ const ModalHistory = (props: Props) => {
     const [isDeleteModal, setIsDeleteModal] = useState<boolean>(false);
     const [idSelected, setIdSelected] = useState(null);
 
-    const onGetHistoryShowAsync = async ({ size = pageSize, page = 1 }) => {
+    const onGetReservationShowAsync = async ({ size = pageSize, page = 1 }) => {
         const param = {
             page: page - 1,
             size: size,
         }
         try {
-            await parkingLotService.getBookingHistory(
+            await parkingLotService.getParkingLotReservationsShow(
                 param,
                 setLoading
             ).then((res) => {
@@ -43,7 +43,7 @@ const ModalHistory = (props: Props) => {
     }
 
     const onSearch = async (size = pageSize, page = 1) => {
-        await onGetHistoryShowAsync({ size: size, page: page });
+        await onGetReservationShowAsync({ size: size, page: page });
     };
 
     useEffect(() => {
@@ -99,45 +99,67 @@ const ModalHistory = (props: Props) => {
             width={"80%"}
         >
             <div className='flex flex-col gap-2'>
-                <div className='text-center text-[20px] font-semibold text-[#475f7b] uppercase'>Lịch sử đặt chỗ</div>
+                <div className='text-center text-[20px] font-semibold text-[#475f7b] uppercase'>Thông tin đặt chỗ</div>
                 {
                     historyShow && historyShow.length
                         ?
-                        <div>
-                            {
-                                historyShow.map((it, index) => {
+                        <div> {
+                            historyShow && historyShow.length && historyShow.map((it, index) => {
+                                const conditionDate = () => {
+                                    const startTimestamp = new Date(it.startTimestamp);
+                                    const now = new Date()
+                                    if (startTimestamp > now) {
+                                        return true
+                                    }
+                                    else {
+                                        return false
+                                    }
+                                }
+                                return (
+                                    <Row gutter={[10, 0]} key={index} className='text-[#2a2a2a] bg-[#1c3e66e0] rounded-[8px] border-2 border-[#c4c4c4] p-4'>
+                                        <Col xs={24} sm={24} md={10} className='flex flex-col gap-2 bg-[#ffffff] border-2 border-[#c4c4c4] '>
+                                            <div className='p-3'>
+                                                <div className='text-[18px] font-semibold'>Thông tin bãi đỗ</div>
+                                                <div>Tên bãi: {it.parkingSlot.block.parkingLot.name} - {it.parkingSlot.block.parkingLot.address} </div>
+                                                <div>Khu: {it.parkingSlot.block.blockCode} - {it.parkingSlot.slotNumber} </div>
+                                                <div>Giá vé: {formatCurrencyVND(String(it.cost))}</div>
+                                                <div>Ngày đặt: {convertDateShow(it.bookingDate)} </div>
 
-                                    return (
-                                        <Row gutter={[10, 0]} key={index} className='text-[#2a2a2a] bg-[#1c3e66e0] rounded-[8px] border-2 border-[#c4c4c4] p-4'>
-                                            <Col xs={24} sm={24} md={12} className='flex flex-col gap-2 bg-[#ffffff] border-2 border-[#c4c4c4] '>
-                                                <div className='p-3'>
-                                                    <div className='text-[18px] font-semibold'>Thông tin bãi đỗ</div>
-                                                    <div>Tên bãi: {it.parkingSlot.block.parkingLot.name} - {it.parkingSlot.block.parkingLot.address} </div>
-                                                    <div>Khu: {it.parkingSlot.block.blockCode} - {it.parkingSlot.slotNumber} </div>
-                                                    <div>Giá vé: {formatCurrencyVND(String(it.cost))}</div>
-                                                    <div>Ngày đặt: {convertDateShow(it.bookingDate)} </div>
+                                            </div>
+                                        </Col>
+                                        <Col xs={24} sm={24} md={10} className='flex flex-col gap-2 bg-[#ffffff] border-2 border-[#c4c4c4] '>
+                                            <div className='p-3'>
+                                                <div className='text-[18px] font-semibold'>Thông tin khách hàng</div>
+                                                <div>Tên khách hàng: {it.confirmName} </div>
+                                                <div>SĐT: {it.phoneNumber} </div>
+                                                <div>Biển kiểm soát: {it.confirmVehicleNumber} </div>
+                                                <div>Ngày bắt đầu: {convertDateShow(it.startTimestamp)} </div>
+                                            </div>
+                                        </Col>
+                                        <Col xs={24} sm={24} md={4} className='flex flex-col justify-center items-center gap-2 bg-[#ffffff] border-2 border-[#c4c4c4] p-2'>
+                                            {
+                                                conditionDate()
+                                                &&
+                                                <div
+                                                    onClick={() => onOpenModalDelete(it.id)}
+                                                    className='text-[16px] text-center cursor-pointer font-semibold hover:text-[#fe7524] hover:underline '
+                                                >
+                                                    Hủy đặt chỗ
+                                                </div>
+                                            }
 
-                                                </div>
-                                            </Col>
-                                            <Col xs={24} sm={24} md={12} className='flex flex-col gap-2 bg-[#ffffff] border-2 border-[#c4c4c4] '>
-                                                <div className='p-3'>
-                                                    <div className='text-[18px] font-semibold'>Thông tin khách hàng</div>
-                                                    <div>Tên khách hàng: {it.confirmName} </div>
-                                                    <div>SĐT: {it.phoneNumber} </div>
-                                                    <div>Biển kiểm soát: {it.confirmVehicleNumber} </div>
-                                                    <div>Ngày bắt đầu: {convertDateShow(it.startTimestamp)} </div>
-                                                </div>
-                                            </Col>
-                                        </Row>
-                                    )
-                                })
-                            }
+                                        </Col>
+                                    </Row>
+                                )
+                            })
+                        }
                         </div>
                         :
                         <div className='bg-[#fffffff3] border-2 p-6 rounded-[8px]'>
-                            <p className='font-semibold text-[16px] text-[#1C3E66] my-3 text-center'>Bạn chưa đặt chỗ nào !! </p>
+                            <p className='font-semibold text-[16px] text-[#1C3E66] my-3 text-center'>Chưa có lịch sử đặt !! </p>
                         </div>
                 }
+
             </div>
             <div className='flex flex-col'>
                 <PaginationCommon
@@ -164,4 +186,4 @@ const ModalHistory = (props: Props) => {
     )
 }
 
-export default ModalHistory
+export default ModalReservationShow

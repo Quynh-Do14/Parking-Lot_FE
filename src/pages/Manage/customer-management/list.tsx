@@ -159,7 +159,7 @@ const ListCustomerManagement = () => {
                         dataIndex={"user"}
                         render={(val) => {
                             return (
-                                <div>{val.name} </div>
+                                <div>{val?.name} </div>
                             )
                         }}
                     />
@@ -174,7 +174,7 @@ const ListCustomerManagement = () => {
                         dataIndex={"user"}
                         render={(val) => {
                             return (
-                                <div>{val.username} </div>
+                                <div>{val?.username} </div>
                             )
                         }}
                     />
@@ -189,7 +189,7 @@ const ListCustomerManagement = () => {
                         dataIndex={"user"}
                         render={(val) => {
                             return (
-                                <div>{val.email} </div>
+                                <div>{val?.email} </div>
                             )
                         }}
                     />

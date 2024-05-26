@@ -141,7 +141,7 @@ const ListParkingPage = () => {
                 </div>
                 <div className='bg-[#fffffff3] border-2 p-2 rounded-[8px]'>
                     <Row gutter={[10, 10]} >
-                        {listUser.map((it, index) => {
+                        {listUser && listUser.length && listUser.map((it, index) => {
                             return (
                                 <Col
                                     xl={8} lg={12} md={12} sm={12} xs={24}

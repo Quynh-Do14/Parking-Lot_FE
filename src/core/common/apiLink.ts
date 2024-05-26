@@ -3,6 +3,7 @@ export class Endpoint {
         static Login = "/auth/login"
         static Register = "/auth/signup"
         static Profile = "/auth/profile"
+        static Avatar = "/profile/avatar"
         static ProfileUpdate = "/profile/update"
         static Customer = "/customers/update"
         static ChangePassword = "/auth/change-password"
@@ -13,11 +14,12 @@ export class Endpoint {
         static Add = "/parking-lots/admin/add"
         static Update = "/parking-lots/admin/update"
         static Delete = "/parking-lots/admin/delete"
-        
+
         static GetReservations = "/parking-slot-reservations/add"
         static DeleteReservation = "/parking-slot-reservations/delete"
         static GetReservationAdmin = "/parking-slot-reservations/admin"
         static GetReservationShow = "/parking-slot-reservations/show"
+        static BookingHistories = "/booking-histories"
     }
     static RegularPass = class {
         static Get = "/regular-passes/show"
@@ -29,7 +31,7 @@ export class Endpoint {
         static Get = "/customers/admin"
         static GetById = "/customers"
         static Add = "/customers/add"
-        static Update = "/customers/update"
-        static Delete = "/customers/delete"
+        static Update = "/customers/admin/update"
+        static Delete = "/customers/admin/delete"
     }
 }

@@ -9,7 +9,8 @@ import { ButtonCommon } from '../components/button/button-common';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { ProfileState } from '../../../core/atoms/profile/profileState';
 import InputDateCommon from '../components/input/input-date';
-import { convertDateOnlyShow, formatCurrencyVND } from '../../helper/helper';
+import { arrayBufferToBase64, convertDateOnlyShow, formatCurrencyVND } from '../../helper/helper';
+import { AvatarState } from '../../../core/atoms/avatar/avatarState';
 
 type Props = {
   // handleOk: Function,
@@ -26,11 +27,12 @@ const ProfileModal = (props: Props) => {
   const [detailCustomer, setDetailCustomer] = useState<any>({});
   const [regularPass, setRegularPass] = useState<any>({});
 
-  const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState<any>(null);
   const [avatar, setAvatar] = useState(null);
   const navigate = useNavigate();
 
-  const [, setDetailState] = useRecoilState(ProfileState)
+  const [, setDetailState] = useRecoilState(ProfileState);
+  const [, setAvatarState] = useRecoilState(AvatarState);
 
   const [_data, _setData] = useState<any>({});
   const dataProfile = _data;
@@ -77,10 +79,28 @@ const ProfileModal = (props: Props) => {
     onGetUserByIdAsync().then(() => { })
   }, [])
 
+  const onGetUserAvatarsync = async () => {
+    try {
+      await authService.getAvatar(
+        setLoading
+      ).then((response) => {
+        const base64String = arrayBufferToBase64(response);
+        const imageSrc = `data:image/jpeg;base64,${base64String}`;
+        setImageUrl(imageSrc)
+        setAvatarState({ data: imageSrc })
+      })
+    }
+    catch (error) {
+      console.error(error)
+    }
+  }
+  useEffect(() => {
+    onGetUserAvatarsync().then(() => { })
+  }, [])
   useEffect(() => {
     if (detailProfile) {
       setDataProfile({
-        avatar: detailProfile.avatar,
+        avatar: detailProfile.image?.data,
         name: detailProfile.name,
         email: detailProfile.email,
         username: detailProfile.username,
@@ -108,13 +128,17 @@ const ProfileModal = (props: Props) => {
     if (isValidData()) {
       await authService.updateProfile(
         {
+          file: avatar ? avatar : imageUrl,
           email: dataProfile.email,
           username: dataProfile.username,
           name: dataProfile.name,
           contactNumber: dataProfile.contactNumber,
           vehicleNumber: dataProfile.vehicleNumber,
         },
-        onGetUserByIdAsync,
+        () => {
+          onGetUserByIdAsync;
+          onGetUserAvatarsync
+        },
         setLoading
       )
     }
@@ -139,7 +163,7 @@ const ProfileModal = (props: Props) => {
           <Col xs={24} sm={24} md={12} lg={8} xl={6} xxl={5} className='border-add flex justify-center'>
             <div className='legend-title'>Cập nhật ảnh</div>
             <UploadImage
-              attributeImg={dataProfile.avatar}
+              attributeImg={imageUrl}
               imageUrl={imageUrl}
               setAvatar={setAvatar}
               setImageUrl={setImageUrl}

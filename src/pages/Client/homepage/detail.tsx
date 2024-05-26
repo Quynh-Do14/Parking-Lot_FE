@@ -63,7 +63,6 @@ const DetailParkingPage = () => {
         return allRequestOK;
     };
     const dataProfileState = useRecoilValue(ProfileState);
-    console.log("startDate", startDate);
 
     useEffect(() => {
         if (dataProfileState) {
