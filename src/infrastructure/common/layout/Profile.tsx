@@ -136,8 +136,8 @@ const ProfileModal = (props: Props) => {
           vehicleNumber: dataProfile.vehicleNumber,
         },
         () => {
-          onGetUserByIdAsync;
-          onGetUserAvatarsync
+          onGetUserByIdAsync();
+          onGetUserAvatarsync()
         },
         setLoading
       )
